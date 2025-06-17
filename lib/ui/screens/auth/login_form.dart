@@ -51,7 +51,12 @@ class _LoginFormState extends State<LoginForm> {
                             _emailController.text, _passController.text);
                         if (user != null) {
                           if (user.emailVerified) {
-                            Navigator.pushReplacementNamed(context, '/home');
+                            // CAMBIO: SIEMPRE NAVEGA A SPLASH
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/splash',
+                              (route) => false,
+                            );
                           } else {
                             Navigator.pushReplacementNamed(
                                 context, '/verification_loading');
@@ -78,7 +83,12 @@ class _LoginFormState extends State<LoginForm> {
                   try {
                     final user = await authViewModel.signInWithGoogle();
                     if (user != null) {
-                      Navigator.pushReplacementNamed(context, '/home');
+                      // CAMBIO: SIEMPRE NAVEGA A SPLASH
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/splash',
+                        (route) => false,
+                      );
                     }
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -95,7 +105,12 @@ class _LoginFormState extends State<LoginForm> {
                   try {
                     final user = await authViewModel.signInWithFacebook();
                     if (user != null) {
-                      Navigator.pushReplacementNamed(context, '/home');
+                      // CAMBIO: SIEMPRE NAVEGA A SPLASH
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/splash',
+                        (route) => false,
+                      );
                     }
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(

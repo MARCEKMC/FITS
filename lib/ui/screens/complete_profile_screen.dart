@@ -22,10 +22,39 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
   bool _loading = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadExistingProfile();
+  }
+
+  void _loadExistingProfile() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final userViewModel = Provider.of<UserViewModel>(context, listen: false);
+      await userViewModel.loadProfile(user.uid);
+      final profile = userViewModel.profile;
+      if (profile != null) {
+        setState(() {
+          _usernameController.text = profile.username;
+          _realNameController.text = profile.realName;
+          _gender = profile.gender.isNotEmpty ? profile.gender : null;
+          _birthDate = profile.birthDate;
+          _profileType = profile.profileType.isNotEmpty ? profile.profileType : null;
+          _region = profile.region;
+          _language = profile.language;
+        });
+      }
+    }
+  }
+
   void _saveProfile(BuildContext context) async {
     setState(() => _loading = true);
     final user = FirebaseAuth.instance.currentUser;
-    if (user == null) return;
+    if (user == null) {
+      setState(() => _loading = false);
+      return;
+    }
 
     final profile = UserProfile(
       uid: user.uid,
@@ -38,8 +67,18 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
       language: _language,
     );
 
-    Provider.of<UserViewModel>(context, listen: false).setProfile(profile);
-    Navigator.pushReplacementNamed(context, '/home');
+    if (!profile.isReallyComplete) {
+      setState(() => _loading = false);
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Completa todos los campos obligatorios.')),
+      );
+      return;
+    }
+
+    await Provider.of<UserViewModel>(context, listen: false).setProfile(profile);
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, '/home');
+    }
     setState(() => _loading = false);
   }
 
@@ -58,8 +97,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
             const SizedBox(height: 16),
             TextField(
               controller: _realNameController,
-              decoration:
-                  const InputDecoration(labelText: 'Nombre y apellido reales'),
+              decoration: const InputDecoration(labelText: 'Nombre y apellido reales'),
             ),
             const SizedBox(height: 16),
             DropdownButtonFormField<String>(
@@ -74,16 +112,19 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
             const SizedBox(height: 16),
             TextField(
               readOnly: true,
+              controller: TextEditingController(
+                text: _birthDate == null
+                    ? ''
+                    : '${_birthDate!.day.toString().padLeft(2, '0')}/${_birthDate!.month.toString().padLeft(2, '0')}/${_birthDate!.year}',
+              ),
               decoration: InputDecoration(
-                labelText: _birthDate == null
-                    ? 'Fecha de nacimiento'
-                    : 'Fecha: ${_birthDate!.toLocal()}'.split(' ')[0],
+                labelText: 'Fecha de nacimiento',
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.calendar_today),
                   onPressed: () async {
                     final picked = await showDatePicker(
                       context: context,
-                      initialDate: DateTime(2000),
+                      initialDate: _birthDate ?? DateTime(2000),
                       firstDate: DateTime(1900),
                       lastDate: DateTime.now(),
                     );
@@ -107,11 +148,13 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
             ),
             const SizedBox(height: 16),
             TextField(
+              controller: TextEditingController(text: _region),
               decoration: const InputDecoration(labelText: 'Región (país)'),
               onChanged: (v) => _region = v,
             ),
             const SizedBox(height: 16),
             TextField(
+              controller: TextEditingController(text: _language),
               decoration: const InputDecoration(labelText: 'Idioma'),
               onChanged: (v) => _language = v,
             ),

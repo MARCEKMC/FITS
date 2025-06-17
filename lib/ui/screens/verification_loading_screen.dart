@@ -6,12 +6,12 @@ class VerificationLoadingScreen extends StatefulWidget {
   const VerificationLoadingScreen({super.key});
 
   @override
-  State<VerificationLoadingScreen> createState() =>
-      _VerificationLoadingScreenState();
+  State<VerificationLoadingScreen> createState() => _VerificationLoadingScreenState();
 }
 
 class _VerificationLoadingScreenState extends State<VerificationLoadingScreen> {
   bool _checking = false;
+  bool _disposed = false;
 
   @override
   void initState() {
@@ -19,34 +19,62 @@ class _VerificationLoadingScreenState extends State<VerificationLoadingScreen> {
     _waitForVerification();
   }
 
-  void _waitForVerification() async {
+  @override
+  void dispose() {
+    _disposed = true;
+    super.dispose();
+  }
+
+  Future<void> _waitForVerification() async {
     setState(() => _checking = true);
     final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
 
-    while (true) {
+    while (!_disposed) {
       await Future.delayed(const Duration(seconds: 2));
       final verified = await authViewModel.isEmailVerified();
       if (verified) {
-        Navigator.pushReplacementNamed(context, '/complete_profile');
+        if (!_disposed) {
+          Navigator.pushReplacementNamed(context, '/complete_profile');
+        }
         break;
       }
     }
-    setState(() => _checking = false);
+    if (!_disposed) setState(() => _checking = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 24),
-            Text(
-                'Por favor verifica tu correo electrónico\ny luego vuelve a la app.',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18)),
+            const CircularProgressIndicator(),
+            const SizedBox(height: 24),
+            const Text(
+              'Por favor verifica tu correo electrónico\ny luego vuelve a la app.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 18),
+            ),
+            const SizedBox(height: 24),
+            ElevatedButton(
+              onPressed: () async {
+                final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+                final verified = await authViewModel.isEmailVerified();
+                if (verified) {
+                  if (mounted) {
+                    Navigator.pushReplacementNamed(context, '/complete_profile');
+                  }
+                } else {
+                  if (mounted) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Aún no se ha verificado el correo.')),
+                    );
+                  }
+                }
+              },
+              child: const Text('Ya verifiqué mi correo'),
+            ),
           ],
         ),
       ),

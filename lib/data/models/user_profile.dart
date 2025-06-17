@@ -34,14 +34,25 @@ class UserProfile {
 
   static UserProfile fromMap(Map<String, dynamic> map) {
     return UserProfile(
-      uid: map['uid'],
-      username: map['username'],
-      realName: map['realName'],
-      gender: map['gender'],
-      birthDate: DateTime.parse(map['birthDate']),
-      profileType: map['profileType'],
-      region: map['region'],
-      language: map['language'],
+      uid: map['uid'] ?? '',
+      username: map['username'] ?? '',
+      realName: map['realName'] ?? '',
+      gender: map['gender'] ?? '',
+      birthDate: map['birthDate'] != null && map['birthDate'] != ''
+          ? DateTime.tryParse(map['birthDate']) ?? DateTime.now()
+          : DateTime.now(),
+      profileType: map['profileType'] ?? '',
+      region: map['region'] ?? '',
+      language: map['language'] ?? '',
     );
+  }
+
+  bool get isReallyComplete {
+    return username.trim().isNotEmpty &&
+        realName.trim().isNotEmpty &&
+        gender.trim().isNotEmpty &&
+        profileType.trim().isNotEmpty &&
+        region.trim().isNotEmpty &&
+        language.trim().isNotEmpty;
   }
 }
