@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "927562574250",
+    "project_id": "fits311274",
+    "storage_bucket": "fits311274.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:927562574250:android:c4b7aaf05bc097e76e23d3",
+        "android_client_info": {
+          "package_name": "com.elaine.fits"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "927562574250-1t48vle35grn9d5kkc4747d7lnhlq10f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.elaine.fits",
+            "certificate_hash": "cf777e5eb4457821abdb04f4e117ec3c97e1a2e9"
+          }
+        },
+        {
+          "client_id": "927562574250-fha0208bmsht06bouvf1p85c9bpjd3so.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDd79D095W6DMb2YajrW50JP8XBSCoKcMc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "927562574250-fha0208bmsht06bouvf1p85c9bpjd3so.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
