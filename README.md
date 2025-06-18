@@ -1,5 +1,4 @@
 
-FITS
 FITS es una aplicación móvil centrada en el bienestar personal, la productividad, el estudio y la salud. Combina múltiples funcionalidades como gestión de horarios, rutinas saludables, enfoque personal y un asistente virtual inteligente llamado FITSI.
 
 🚀 Características Principales
