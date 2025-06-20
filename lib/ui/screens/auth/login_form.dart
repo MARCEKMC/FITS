@@ -51,7 +51,7 @@ class _LoginFormState extends State<LoginForm> {
                             _emailController.text, _passController.text);
                         if (user != null) {
                           if (user.emailVerified) {
-                            // CAMBIO: SIEMPRE NAVEGA A SPLASH
+                            // SIEMPRE NAVEGA A SPLASH PARA QUE EL FLUJO SEA CONSISTENTE
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               '/splash',
@@ -83,7 +83,6 @@ class _LoginFormState extends State<LoginForm> {
                   try {
                     final user = await authViewModel.signInWithGoogle();
                     if (user != null) {
-                      // CAMBIO: SIEMPRE NAVEGA A SPLASH
                       Navigator.pushNamedAndRemoveUntil(
                         context,
                         '/splash',
@@ -105,7 +104,6 @@ class _LoginFormState extends State<LoginForm> {
                   try {
                     final user = await authViewModel.signInWithFacebook();
                     if (user != null) {
-                      // CAMBIO: SIEMPRE NAVEGA A SPLASH
                       Navigator.pushNamedAndRemoveUntil(
                         context,
                         '/splash',

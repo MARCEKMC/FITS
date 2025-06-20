@@ -50,8 +50,11 @@ class _RegisterFormState extends State<RegisterForm> {
                         final user = await authViewModel.registerWithEmail(
                             _emailController.text, _passController.text);
                         if (user != null) {
+                          // Si tu flujo requiere verificación de email, primero ve a verificación:
                           Navigator.pushReplacementNamed(
                               context, '/verification_loading');
+                          // Si NO requieres verificación de email, usa esto en vez de lo de arriba:
+                          // Navigator.pushNamedAndRemoveUntil(context, '/splash', (route) => false);
                         }
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(
@@ -74,7 +77,11 @@ class _RegisterFormState extends State<RegisterForm> {
                   try {
                     final user = await authViewModel.signInWithGoogle();
                     if (user != null) {
-                      Navigator.pushReplacementNamed(context, '/home');
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/splash',
+                        (route) => false,
+                      );
                     }
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
@@ -91,7 +98,11 @@ class _RegisterFormState extends State<RegisterForm> {
                   try {
                     final user = await authViewModel.signInWithFacebook();
                     if (user != null) {
-                      Navigator.pushReplacementNamed(context, '/home');
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        '/splash',
+                        (route) => false,
+                      );
                     }
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
