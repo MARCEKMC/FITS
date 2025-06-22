@@ -13,6 +13,7 @@ class _LoginFormState extends State<LoginForm> {
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   bool _loading = false;
+  String? _errorMsg;
 
   @override
   Widget build(BuildContext context) {
@@ -25,8 +26,9 @@ class _LoginFormState extends State<LoginForm> {
         children: [
           TextField(
             controller: _emailController,
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
               labelText: 'Correo electrónico',
+              errorText: _errorMsg,
             ),
           ),
           const SizedBox(height: 16),
@@ -45,13 +47,16 @@ class _LoginFormState extends State<LoginForm> {
                   height: 48,
                   child: ElevatedButton(
                     onPressed: () async {
-                      setState(() => _loading = true);
+                      setState(() {
+                        _loading = true;
+                        _errorMsg = null;
+                      });
                       try {
                         final user = await authViewModel.signInWithEmail(
                             _emailController.text, _passController.text);
                         if (user != null) {
+                          await user.reload();
                           if (user.emailVerified) {
-                            // SIEMPRE NAVEGA A SPLASH PARA QUE EL FLUJO SEA CONSISTENTE
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               '/splash',
@@ -63,6 +68,9 @@ class _LoginFormState extends State<LoginForm> {
                           }
                         }
                       } catch (e) {
+                        setState(() {
+                          _errorMsg = e.toString().replaceFirst('Exception: ', '');
+                        });
                         ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Error: $e')));
                       }

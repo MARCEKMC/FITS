@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../data/repositories/auth_repositories.dart'; // Asegúrate de que el nombre coincida con tu repo de auth
+import '../data/repositories/auth_repository.dart';
 
 class AuthViewModel extends ChangeNotifier {
   final AuthRepository _repo = AuthRepository();
@@ -13,7 +13,6 @@ class AuthViewModel extends ChangeNotifier {
       notifyListeners();
       return user;
     } catch (e) {
-      notifyListeners();
       rethrow;
     }
   }
@@ -24,7 +23,6 @@ class AuthViewModel extends ChangeNotifier {
       notifyListeners();
       return user;
     } catch (e) {
-      notifyListeners();
       rethrow;
     }
   }
@@ -35,7 +33,6 @@ class AuthViewModel extends ChangeNotifier {
       notifyListeners();
       return user;
     } catch (e) {
-      notifyListeners();
       rethrow;
     }
   }
@@ -46,7 +43,6 @@ class AuthViewModel extends ChangeNotifier {
       notifyListeners();
       return user;
     } catch (e) {
-      notifyListeners();
       rethrow;
     }
   }
