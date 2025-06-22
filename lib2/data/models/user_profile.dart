@@ -10,14 +10,14 @@ class UserProfile {
 
   UserProfile({
     required this.uid,
-    required String username,
+    required this.username,
     required this.realName,
     required this.gender,
     required this.birthDate,
     required this.profileType,
     required this.region,
     required this.language,
-  }) : username = username.trim().toLowerCase();
+  });
 
   Map<String, dynamic> toMap() {
     return {

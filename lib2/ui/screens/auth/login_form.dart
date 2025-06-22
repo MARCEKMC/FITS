@@ -2,22 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../viewmodel/auth_viewmodel.dart';
 
-class RegisterForm extends StatefulWidget {
-  const RegisterForm({super.key});
+class LoginForm extends StatefulWidget {
+  const LoginForm({super.key});
 
   @override
-  State<RegisterForm> createState() => _RegisterFormState();
+  State<LoginForm> createState() => _LoginFormState();
 }
 
-class _RegisterFormState extends State<RegisterForm> {
+class _LoginFormState extends State<LoginForm> {
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   bool _loading = false;
-  String? _errorMsg;
-
-  bool _isValidEmail(String email) {
-    return RegExp(r"^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$").hasMatch(email);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +25,8 @@ class _RegisterFormState extends State<RegisterForm> {
         children: [
           TextField(
             controller: _emailController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Correo electrónico',
-              errorText: _errorMsg,
             ),
           ),
           const SizedBox(height: 16),
@@ -51,39 +45,30 @@ class _RegisterFormState extends State<RegisterForm> {
                   height: 48,
                   child: ElevatedButton(
                     onPressed: () async {
-                      final email = _emailController.text.trim();
-                      final pass = _passController.text.trim();
-                      setState(() {
-                        _loading = true;
-                        _errorMsg = null;
-                      });
-
-                      if (!_isValidEmail(email)) {
-                        setState(() {
-                          _errorMsg = "Correo inválido";
-                          _loading = false;
-                        });
-                        return;
-                      }
-                      if (pass.length < 6) {
-                        setState(() {
-                          _errorMsg = "Contraseña muy corta (mínimo 6)";
-                          _loading = false;
-                        });
-                        return;
-                      }
-
+                      setState(() => _loading = true);
                       try {
-                        final user = await authViewModel.registerWithEmail(email, pass);
+                        final user = await authViewModel.signInWithEmail(
+                            _emailController.text, _passController.text);
                         if (user != null) {
-                          Navigator.pushReplacementNamed(context, '/verification_loading');
+                          if (user.emailVerified) {
+                            // SIEMPRE NAVEGA A SPLASH PARA QUE EL FLUJO SEA CONSISTENTE
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/splash',
+                              (route) => false,
+                            );
+                          } else {
+                            Navigator.pushReplacementNamed(
+                                context, '/verification_loading');
+                          }
                         }
                       } catch (e) {
-                        setState(() => _errorMsg = "Error: ${e.toString()}");
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Error: $e')));
                       }
                       setState(() => _loading = false);
                     },
-                    child: const Text('Registrarse'),
+                    child: const Text('Entrar'),
                   ),
                 ),
           const SizedBox(height: 16),

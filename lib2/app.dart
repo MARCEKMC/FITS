@@ -14,7 +14,6 @@ class FitsApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
         ChangeNotifierProvider(create: (_) => UserViewModel()),
-        // Elimina cualquier Provider de HealthViewModel
       ],
       child: MaterialApp(
         title: 'Fits App',

@@ -13,11 +13,6 @@ class _RegisterFormState extends State<RegisterForm> {
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
   bool _loading = false;
-  String? _errorMsg;
-
-  bool _isValidEmail(String email) {
-    return RegExp(r"^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$").hasMatch(email);
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +25,8 @@ class _RegisterFormState extends State<RegisterForm> {
         children: [
           TextField(
             controller: _emailController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'Correo electrónico',
-              errorText: _errorMsg,
             ),
           ),
           const SizedBox(height: 16),
@@ -51,35 +45,20 @@ class _RegisterFormState extends State<RegisterForm> {
                   height: 48,
                   child: ElevatedButton(
                     onPressed: () async {
-                      final email = _emailController.text.trim();
-                      final pass = _passController.text.trim();
-                      setState(() {
-                        _loading = true;
-                        _errorMsg = null;
-                      });
-
-                      if (!_isValidEmail(email)) {
-                        setState(() {
-                          _errorMsg = "Correo inválido";
-                          _loading = false;
-                        });
-                        return;
-                      }
-                      if (pass.length < 6) {
-                        setState(() {
-                          _errorMsg = "Contraseña muy corta (mínimo 6)";
-                          _loading = false;
-                        });
-                        return;
-                      }
-
+                      setState(() => _loading = true);
                       try {
-                        final user = await authViewModel.registerWithEmail(email, pass);
+                        final user = await authViewModel.registerWithEmail(
+                            _emailController.text, _passController.text);
                         if (user != null) {
-                          Navigator.pushReplacementNamed(context, '/verification_loading');
+                          // Si tu flujo requiere verificación de email, primero ve a verificación:
+                          Navigator.pushReplacementNamed(
+                              context, '/verification_loading');
+                          // Si NO requieres verificación de email, usa esto en vez de lo de arriba:
+                          // Navigator.pushNamedAndRemoveUntil(context, '/splash', (route) => false);
                         }
                       } catch (e) {
-                        setState(() => _errorMsg = "Error: ${e.toString()}");
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Error: $e')));
                       }
                       setState(() => _loading = false);
                     },

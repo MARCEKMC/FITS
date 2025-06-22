@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fits/ui/screens/auth/splash_screen.dart';
-import 'package:fits/ui/screens/auth/auth_screen.dart';
-import 'package:fits/ui/screens/auth/verification_loading_screen.dart';
-import 'package:fits/ui/screens/auth/complete_profile_screen.dart';
-import 'package:fits/ui/screens/home/home_screen.dart';
-// Elimina los imports de health
+import '../../ui/screens/splash_screen.dart';
+import '../../ui/screens/auth/auth_screen.dart';
+import '../../ui/screens/verification_loading_screen.dart';
+import '../../ui/screens/complete_profile_screen.dart';
+import '../../ui/screens/home/home_screen.dart';
+// Agrega estos imports:
+import '../../ui/screens/health/health_onboarding_screen.dart';
+import '../../ui/screens/health/health_main_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -19,9 +21,11 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const CompleteProfileScreen());
       case '/home':
         return MaterialPageRoute(builder: (_) => const HomeScreen());
-      // Elimina estas rutas:
-      // case '/health_onboarding':
-      // case '/health_main':
+      // AGREGA ESTAS DOS RUTAS:
+      case '/health_onboarding':
+        return MaterialPageRoute(builder: (_) => const HealthOnboardingScreen());
+      case '/health_main':
+        return MaterialPageRoute(builder: (_) => const HealthMainScreen());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
