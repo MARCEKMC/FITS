@@ -65,12 +65,15 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
       final userRepo = UserRepository();
       bool taken = false;
       try {
-        taken = await userRepo.isUsernameTaken(username);
+        taken = await userRepo.isUsernameTaken(username).timeout(const Duration(seconds: 10));
       } catch (e) {
         setState(() {
           _loading = false;
           _usernameError = "Error de conexión. Intenta de nuevo.";
         });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al consultar: $e')),
+        );
         return;
       }
 
@@ -126,9 +129,11 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     }
     await Provider.of<UserViewModel>(context, listen: false).setProfile(profile);
     if (mounted) {
+      setState(() => _loading = false);
       Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      setState(() => _loading = false);
     }
-    setState(() => _loading = false);
   }
 
   Widget _buildDots() {

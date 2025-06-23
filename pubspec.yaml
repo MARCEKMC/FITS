@@ -43,6 +43,5 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # Activa tus assets (descomenta y pon tus imágenes si las usas)
-  # assets:
-  #   - images/
+  assets:
+    - lib/core/utils/images/

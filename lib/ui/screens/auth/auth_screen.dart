@@ -12,38 +12,24 @@ class AuthScreen extends StatefulWidget {
 class _AuthScreenState extends State<AuthScreen> {
   final PageController _pageController = PageController();
 
-  void _goToPage(int index) {
-    _pageController.animateToPage(index,
-        duration: const Duration(milliseconds: 300), curve: Curves.easeInOut);
-  }
-
   @override
   Widget build(BuildContext context) {
+    // El contenido NO se mueve al abrir el teclado
     return Scaffold(
-      appBar: AppBar(title: const Text('Bienvenido')),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                  onPressed: () => _goToPage(0),
-                  child: const Text('Login')),
-              TextButton(
-                  onPressed: () => _goToPage(1),
-                  child: const Text('Registro')),
+      backgroundColor: Colors.white,
+      resizeToAvoidBottomInset: false,
+      body: Center(
+        child: SizedBox(
+          width: 420, // Máximo ancho para el PageView
+          child: PageView(
+            controller: _pageController,
+            physics: const BouncingScrollPhysics(),
+            children: const [
+              LoginForm(),
+              RegisterForm(),
             ],
           ),
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              children: const [
-                LoginForm(),
-                RegisterForm(),
-              ],
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
