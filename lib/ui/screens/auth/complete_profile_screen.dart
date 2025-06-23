@@ -16,6 +16,8 @@ const List<String> meses = [
   "ENERO","FEBRERO","MARZO","ABRIL","MAYO","JUNIO","JULIO","AGOSTO","SEPTIEMBRE","OCTUBRE","NOVIEMBRE","DICIEMBRE"
 ];
 
+final RegExp usernameRegex = RegExp(r'^[a-zA-Z0-9._-]+$');
+
 class CompleteProfileScreen extends StatefulWidget {
   const CompleteProfileScreen({super.key});
 
@@ -41,8 +43,53 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
   final List<int> _days = List.generate(31, (i) => i + 1);
   final List<int> _years = List.generate(100, (i) => DateTime.now().year - i);
 
-  void _nextStep() {
-    if (_step < 7) {
+  Future<void> _nextStep() async {
+    if (_step == 0) {
+      setState(() {
+        _loading = true;
+        _usernameError = null;
+      });
+
+      final username = _usernameController.text.trim().toLowerCase();
+
+      // Validar formato antes de consultar Firestore
+      if (!usernameRegex.hasMatch(username)) {
+        setState(() {
+          _loading = false;
+          _usernameError = "Solo letras, números, puntos, guión y guión bajo";
+        });
+        return;
+      }
+
+      // Validar unicidad en Firestore
+      final userRepo = UserRepository();
+      bool taken = false;
+      try {
+        taken = await userRepo.isUsernameTaken(username);
+      } catch (e) {
+        setState(() {
+          _loading = false;
+          _usernameError = "Error de conexión. Intenta de nuevo.";
+        });
+        return;
+      }
+
+      if (taken) {
+        setState(() {
+          _loading = false;
+          _usernameError = "El nombre de usuario ya existe";
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('El nombre de usuario ya existe.')),
+        );
+        return;
+      }
+
+      setState(() {
+        _loading = false;
+        _step++;
+      });
+    } else if (_step < 7) {
       setState(() => _step++);
     } else {
       _saveProfile(context);
@@ -53,44 +100,23 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     if (_step > 0) setState(() => _step--);
   }
 
-  Future<void> _saveProfile(BuildContext context) async {
-    setState(() {
-      _loading = true;
-      _usernameError = null;
-    });
+  void _saveProfile(BuildContext context) async {
+    setState(() => _loading = true);
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
       setState(() => _loading = false);
       return;
     }
-
-    final userRepo = UserRepository();
-    final username = _usernameController.text.trim().toLowerCase();
-
-    // Validación de unicidad de username
-    final taken = await userRepo.isUsernameTaken(username);
-    if (taken) {
-      setState(() {
-        _loading = false;
-        _usernameError = "Nombre de usuario no disponible";
-      });
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('El nombre de usuario ya existe.')),
-      );
-      return;
-    }
-
     final profile = UserProfile(
       uid: user.uid,
-      username: username,
-      realName: "${_realNameController.text.trim()} ${_lastNameController.text.trim()}",
+      username: _usernameController.text.trim().toLowerCase(),
+      realName: _realNameController.text.trim() + " " + _lastNameController.text.trim(),
       gender: _gender ?? '',
       birthDate: _birthDate,
       profileType: _profileType ?? '',
       region: regiones[_regionIndex],
       language: idiomas[_idiomaIndex],
     );
-
     if (!profile.isReallyComplete) {
       setState(() => _loading = false);
       ScaffoldMessenger.of(context).showSnackBar(
@@ -98,20 +124,11 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
       );
       return;
     }
-
-    try {
-      await userRepo.saveUserProfile(profile);
-      await Provider.of<UserViewModel>(context, listen: false).setProfile(profile);
-      if (mounted) {
-        Navigator.pushReplacementNamed(context, '/home');
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al guardar perfil: $e')),
-      );
-    } finally {
-      setState(() => _loading = false);
+    await Provider.of<UserViewModel>(context, listen: false).setProfile(profile);
+    if (mounted) {
+      Navigator.pushReplacementNamed(context, '/home');
     }
+    setState(() => _loading = false);
   }
 
   Widget _buildDots() {
@@ -133,7 +150,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
 
   bool _isCurrentStepComplete() {
     switch (_step) {
-      case 0: return _usernameController.text.trim().isNotEmpty;
+      case 0: return _usernameController.text.trim().isNotEmpty && _usernameError == null;
       case 1: return _realNameController.text.trim().isNotEmpty;
       case 2: return _lastNameController.text.trim().isNotEmpty;
       case 3: return _gender != null;

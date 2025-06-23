@@ -31,10 +31,11 @@ class _VerificationLoadingScreenState extends State<VerificationLoadingScreen> {
 
     while (!_disposed) {
       await Future.delayed(const Duration(seconds: 2));
+      await authViewModel.reloadUser();
       final verified = await authViewModel.isEmailVerified();
       if (verified) {
         if (!_disposed) {
-          Navigator.pushReplacementNamed(context, '/complete_profile');
+          Navigator.pushReplacementNamed(context, '/splash');
         }
         break;
       }
@@ -44,6 +45,8 @@ class _VerificationLoadingScreenState extends State<VerificationLoadingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+
     return Scaffold(
       body: Center(
         child: Column(
@@ -59,11 +62,11 @@ class _VerificationLoadingScreenState extends State<VerificationLoadingScreen> {
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: () async {
-                final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
+                await authViewModel.reloadUser();
                 final verified = await authViewModel.isEmailVerified();
                 if (verified) {
                   if (mounted) {
-                    Navigator.pushReplacementNamed(context, '/complete_profile');
+                    Navigator.pushReplacementNamed(context, '/splash');
                   }
                 } else {
                   if (mounted) {
@@ -74,6 +77,16 @@ class _VerificationLoadingScreenState extends State<VerificationLoadingScreen> {
                 }
               },
               child: const Text('Ya verifiqué mi correo'),
+            ),
+            const SizedBox(height: 16),
+            TextButton(
+              onPressed: () async {
+                await authViewModel.sendEmailVerification();
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Correo de verificación reenviado.')),
+                );
+              },
+              child: const Text('Reenviar correo de verificación'),
             ),
           ],
         ),

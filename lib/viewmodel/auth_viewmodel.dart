@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../data/repositories/auth_repositories.dart'; // Asegúrate de que el nombre coincida con tu repo de auth
+import '../data/repositories/auth_repositories.dart';
 
 class AuthViewModel extends ChangeNotifier {
   final AuthRepository _repo = AuthRepository();
@@ -8,47 +8,27 @@ class AuthViewModel extends ChangeNotifier {
   User? get user => _repo.currentUser;
 
   Future<User?> signInWithEmail(String email, String password) async {
-    try {
-      final user = await _repo.signInWithEmail(email, password);
-      notifyListeners();
-      return user;
-    } catch (e) {
-      notifyListeners();
-      rethrow;
-    }
+    final user = await _repo.signInWithEmail(email, password);
+    notifyListeners();
+    return user;
   }
 
   Future<User?> registerWithEmail(String email, String password) async {
-    try {
-      final user = await _repo.registerWithEmail(email, password);
-      notifyListeners();
-      return user;
-    } catch (e) {
-      notifyListeners();
-      rethrow;
-    }
+    final user = await _repo.registerWithEmail(email, password);
+    notifyListeners();
+    return user;
   }
 
   Future<User?> signInWithGoogle() async {
-    try {
-      final user = await _repo.signInWithGoogle();
-      notifyListeners();
-      return user;
-    } catch (e) {
-      notifyListeners();
-      rethrow;
-    }
+    final user = await _repo.signInWithGoogle();
+    notifyListeners();
+    return user;
   }
 
   Future<User?> signInWithFacebook() async {
-    try {
-      final user = await _repo.signInWithFacebook();
-      notifyListeners();
-      return user;
-    } catch (e) {
-      notifyListeners();
-      rethrow;
-    }
+    final user = await _repo.signInWithFacebook();
+    notifyListeners();
+    return user;
   }
 
   Future<void> signOut() async {
@@ -57,4 +37,15 @@ class AuthViewModel extends ChangeNotifier {
   }
 
   Future<bool> isEmailVerified() => _repo.isEmailVerified();
+
+  Future<void> reloadUser() async {
+    await _repo.currentUser?.reload();
+    notifyListeners();
+  }
+
+  Future<void> sendEmailVerification() async {
+    if (_repo.currentUser != null && !_repo.currentUser!.emailVerified) {
+      await _repo.currentUser!.sendEmailVerification();
+    }
+  }
 }

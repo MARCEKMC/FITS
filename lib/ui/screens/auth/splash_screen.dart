@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../viewmodel/auth_viewmodel.dart';
 import '../../../viewmodel/user_viewmodel.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -41,16 +42,18 @@ class _SplashScreenState extends State<SplashScreen>
     final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
     final userViewModel = Provider.of<UserViewModel>(context, listen: false);
 
-    if (authViewModel.user == null) {
+    final user = authViewModel.user;
+    if (user == null) {
       Navigator.pushReplacementNamed(context, '/auth');
+      return;
+    }
+
+    await userViewModel.loadProfile(user.uid);
+
+    if (userViewModel.isProfileComplete) {
+      Navigator.pushReplacementNamed(context, '/home');
     } else {
-      // Carga el perfil desde Firestore
-      await userViewModel.loadProfile(authViewModel.user!.uid);
-      if (userViewModel.isProfileComplete) {
-        Navigator.pushReplacementNamed(context, '/home');
-      } else {
-        Navigator.pushReplacementNamed(context, '/complete_profile');
-      }
+      Navigator.pushReplacementNamed(context, '/complete_profile');
     }
   }
 
@@ -67,14 +70,14 @@ class _SplashScreenState extends State<SplashScreen>
       body: Center(
         child: FadeTransition(
           opacity: _fadeAnimation,
-          child: Text(
+          child: const Text(
             'FITS',
             style: TextStyle(
               fontSize: 54,
               fontWeight: FontWeight.w900,
               letterSpacing: 10,
               height: 1.4,
-              color: const Color(0xFF23272A),
+              color: Color(0xFF23272A),
             ),
           ),
         ),
