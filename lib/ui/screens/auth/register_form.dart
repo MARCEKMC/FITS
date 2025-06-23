@@ -192,8 +192,8 @@ class _RegisterFormState extends State<RegisterForm> {
                                     // Validaciones previas
                                     if (email.isEmpty || pass.isEmpty) {
                                       _setMessage(
-                                        "Completa todos los campos",
-                                        "para continuar"
+                                        "Completa todos los",
+                                        "campos para continuar"
                                       );
                                       return;
                                     }
@@ -224,8 +224,8 @@ class _RegisterFormState extends State<RegisterForm> {
                                       if (err.contains("correo ya está registrado") ||
                                           err.contains("email-already-in-use")) {
                                         _setMessage(
-                                          "Email ya registrado",
-                                          "Usa otro correo"
+                                          "Verifica tu correo",
+                                          "e inicia sesión"
                                         );
                                       } else if (err.contains("correo inválido") ||
                                                  err.contains("invalid-email")) {

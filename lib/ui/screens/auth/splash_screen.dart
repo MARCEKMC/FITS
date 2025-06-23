@@ -42,14 +42,19 @@ class _SplashScreenState extends State<SplashScreen>
     final authViewModel = Provider.of<AuthViewModel>(context, listen: false);
     final userViewModel = Provider.of<UserViewModel>(context, listen: false);
 
-    final user = authViewModel.user;
-    if (user == null) {
+    if (authViewModel.user == null) {
       Navigator.pushReplacementNamed(context, '/auth');
       return;
     }
 
-    await userViewModel.loadProfile(user.uid);
+    // CHEQUEA EL EMAIL ANTES DE AVANZAR
+    final isVerified = await authViewModel.isEmailVerified();
+    if (!isVerified) {
+      Navigator.pushReplacementNamed(context, '/verification_loading');
+      return;
+    }
 
+    await userViewModel.loadProfile(authViewModel.user!.uid);
     if (userViewModel.isProfileComplete) {
       Navigator.pushReplacementNamed(context, '/home');
     } else {
