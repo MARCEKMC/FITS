@@ -6,19 +6,38 @@ class FocusButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.black,
-          foregroundColor: Colors.white,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-          padding: const EdgeInsets.symmetric(vertical: 18),
-          textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, letterSpacing: 1.2),
-          elevation: 0,
+    return Material(
+      color: Colors.transparent,
+      elevation: 0,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(60),
+        onTap: onTap ?? () {},
+        child: Container(
+          width: 110,
+          height: 110,
+          decoration: BoxDecoration(
+            color: Colors.black,
+            shape: BoxShape.circle,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08),
+                blurRadius: 24,
+                offset: const Offset(0, 10),
+              ),
+            ],
+          ),
+          child: const Center(
+            child: Text(
+              'FOCUS',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontSize: 25,
+                letterSpacing: 2,
+              ),
+            ),
+          ),
         ),
-        onPressed: onTap ?? () {},
-        child: const Text('FOCUS'),
       ),
     );
   }
