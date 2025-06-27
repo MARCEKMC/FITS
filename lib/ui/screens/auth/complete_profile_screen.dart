@@ -103,7 +103,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
       await userRepo.saveUserProfile(profile);
       await Provider.of<UserViewModel>(context, listen: false).setProfile(profile);
       if (mounted) {
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/main');
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

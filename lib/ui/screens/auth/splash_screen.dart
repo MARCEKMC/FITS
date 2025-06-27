@@ -47,7 +47,7 @@ class _SplashScreenState extends State<SplashScreen>
       // Carga el perfil desde Firestore
       await userViewModel.loadProfile(authViewModel.user!.uid);
       if (userViewModel.isProfileComplete) {
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pushReplacementNamed(context, '/main');
       } else {
         Navigator.pushReplacementNamed(context, '/complete_profile');
       }
