@@ -5,8 +5,11 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-      child: Text('Perfil', style: TextStyle(fontSize: 28)),
+    return Center(
+      child: Text(
+        'Perfil',
+        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
     );
   }
 }
