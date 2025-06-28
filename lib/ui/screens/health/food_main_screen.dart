@@ -29,7 +29,6 @@ class _FoodMainScreenState extends State<FoodMainScreen> {
     if (_lastLoadedDate != selectedDate) {
       final foodVM = Provider.of<FoodViewModel>(context, listen: false);
       final waterVM = Provider.of<WaterViewModel>(context, listen: false);
-      print('[FoodMainScreen] Recargando datos para: $selectedDate');
       foodVM.loadEntriesForDate(selectedDate);
       waterVM.loadEntryForDate(selectedDate);
       _lastLoadedDate = selectedDate;
@@ -37,9 +36,7 @@ class _FoodMainScreenState extends State<FoodMainScreen> {
   }
 
   void _onSelectDate(DateTime date) {
-    print('[FoodMainScreen] Fecha cambiada a: $date');
     Provider.of<SelectedDateViewModel>(context, listen: false).setDate(date);
-    // No llames setState aquí, sólo para UI (por ejemplo, cerrar el calendario)
   }
 
   @override
@@ -100,7 +97,7 @@ class _FoodMainScreenState extends State<FoodMainScreen> {
             ...mealTypes.map((meal) {
               final foods = foodVM.foodEntries
                   .where((f) => f.mealType == meal)
-                  .map((f) => {'name': f.name, 'kcal': f.kcal})
+                  .map((f) => {'id': f.id, 'name': f.name, 'kcal': f.kcal})
                   .toList();
               final kcal = foodVM.totalKcalForMeal(meal);
               return MealSection(
@@ -113,17 +110,44 @@ class _FoodMainScreenState extends State<FoodMainScreen> {
                   await showDialog(
                     context: context,
                     builder: (ctx) => AlertDialog(
-                      title: Text('Agregar alimento a $meal'),
+                      backgroundColor: Colors.white,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18), side: const BorderSide(color: Colors.black12)),
+                      title: Text(
+                        'Agregar alimento a $meal',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black87,
+                        ),
+                      ),
                       content: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           TextField(
                             controller: nameController,
-                            decoration: const InputDecoration(labelText: 'Nombre'),
+                            style: const TextStyle(color: Colors.black87),
+                            decoration: InputDecoration(
+                              labelText: 'Nombre',
+                              labelStyle: const TextStyle(color: Colors.black54),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Colors.black26)),
+                              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Colors.black87)),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                              filled: true,
+                              fillColor: Colors.grey[100],
+                            ),
                           ),
+                          const SizedBox(height: 12),
                           TextField(
                             controller: kcalController,
-                            decoration: const InputDecoration(labelText: 'Kcal'),
+                            style: const TextStyle(color: Colors.black87),
+                            decoration: InputDecoration(
+                              labelText: 'Kcal',
+                              labelStyle: const TextStyle(color: Colors.black54),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Colors.black26)),
+                              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Colors.black87)),
+                              contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                              filled: true,
+                              fillColor: Colors.grey[100],
+                            ),
                             keyboardType: TextInputType.number,
                           ),
                         ],
@@ -133,9 +157,18 @@ class _FoodMainScreenState extends State<FoodMainScreen> {
                           onPressed: () {
                             Navigator.pop(ctx);
                           },
+                          style: TextButton.styleFrom(
+                            foregroundColor: Colors.black87,
+                          ),
                           child: const Text('Cancelar'),
                         ),
                         ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black87,
+                            foregroundColor: Colors.white,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                            elevation: 0,
+                          ),
                           onPressed: () async {
                             if (nameController.text.isEmpty || kcalController.text.isEmpty) return;
                             final kcal = int.tryParse(kcalController.text) ?? 0;
@@ -148,10 +181,13 @@ class _FoodMainScreenState extends State<FoodMainScreen> {
                     ),
                   );
                 },
+                onDelete: (food) async {
+                  await foodVM.deleteFoodEntry(food['id'], selectedDate);
+                },
               );
             }),
             const SizedBox(height: 24),
-            const Text("Agua (2.5L = 10 vasos)", style: TextStyle(fontWeight: FontWeight.bold)),
+            // Eliminado el texto "Agua (2.5L = 10 vasos)"
             Selector<WaterViewModel, int>(
               selector: (_, vm) => vm.glasses,
               builder: (context, glasses, _) {
@@ -159,7 +195,6 @@ class _FoodMainScreenState extends State<FoodMainScreen> {
                 return WaterTracker(
                   glasses: glasses,
                   onTapGlass: (count) {
-                    print('[FoodMainScreen] Guardando $count vasos para $date');
                     Provider.of<WaterViewModel>(context, listen: false).setGlasses(count, date);
                   },
                 );

@@ -27,12 +27,11 @@ class _HealthScreenState extends State<HealthScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                // Puedes mejorar los botones aquí también para un look más minimalista si quieres
                 ElevatedButton(
                   onPressed: () async {
-                    // Verifica si ya hay perfil de salud
                     final hasProfile = await healthVM.hasHealthProfile();
                     if (!hasProfile) {
-                      // Si no hay perfil, muestra la encuesta y espera el resultado
                       final completed = await Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -49,6 +48,13 @@ class _HealthScreenState extends State<HealthScreen> {
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(220, 60),
                     textStyle: const TextStyle(fontSize: 20),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black87,
+                    side: const BorderSide(color: Colors.black12, width: 1.5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    elevation: 0,
                   ),
                   child: const Text("Alimentación"),
                 ),
@@ -56,12 +62,31 @@ class _HealthScreenState extends State<HealthScreen> {
                 ElevatedButton(
                   onPressed: () {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Próximamente: Ejercicios')),
+                      SnackBar(
+                        content: const Text(
+                          'Próximamente: Ejercicios',
+                          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
+                        ),
+                        backgroundColor: Colors.white,
+                        behavior: SnackBarBehavior.floating,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          side: const BorderSide(color: Colors.black12),
+                        ),
+                        elevation: 4,
+                      ),
                     );
                   },
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size(220, 60),
                     textStyle: const TextStyle(fontSize: 20),
+                    backgroundColor: Colors.white,
+                    foregroundColor: Colors.black87,
+                    side: const BorderSide(color: Colors.black12, width: 1.5),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(16),
+                    ),
+                    elevation: 0,
                   ),
                   child: const Text("Ejercicios"),
                 ),
@@ -83,7 +108,18 @@ class _HealthScreenState extends State<HealthScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text("Alimentación"),
+          backgroundColor: Colors.white,
+          elevation: 0.5,
+          title: const Text(
+            "Alimentación",
+            style: TextStyle(
+              color: Colors.black87,
+              fontWeight: FontWeight.bold,
+              fontSize: 22,
+              letterSpacing: 0.2,
+            ),
+          ),
+          iconTheme: const IconThemeData(color: Colors.black87),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {

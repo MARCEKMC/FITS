@@ -20,4 +20,8 @@ class FoodRepository {
   Future<void> addFoodEntry(FoodEntry entry) async {
     await _db.collection('food_entries').doc(entry.id).set(entry.toMap());
   }
+
+  Future<void> deleteFoodEntry(String id) async {
+    await _db.collection('food_entries').doc(id).delete();
+  }
 }

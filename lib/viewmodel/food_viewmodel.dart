@@ -35,11 +35,13 @@ class FoodViewModel extends ChangeNotifier {
     await loadEntriesForDate(normalizedDate);
   }
 
-  int totalKcalForMeal(String meal) =>
-    _foodEntries
-      .where((e) => e.mealType == meal)
-      .fold(0, (sum, e) => sum + e.kcal);
+  Future<void> deleteFoodEntry(String id, DateTime date) async {
+    await _repo.deleteFoodEntry(id);
+    await loadEntriesForDate(date);
+  }
 
-  int totalKcalDay() =>
-    _foodEntries.fold(0, (sum, e) => sum + e.kcal);
+  int totalKcalForMeal(String meal) =>
+      _foodEntries.where((e) => e.mealType == meal).fold(0, (sum, e) => sum + e.kcal);
+
+  int totalKcalDay() => _foodEntries.fold(0, (sum, e) => sum + e.kcal);
 }
