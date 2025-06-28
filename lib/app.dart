@@ -4,7 +4,7 @@ import 'core/theme/app_theme.dart';
 import 'core/navigation/app_router.dart';
 import 'viewmodel/auth_viewmodel.dart';
 import 'viewmodel/user_viewmodel.dart';
-import 'viewmodel/health_profile_viewmodel.dart'; // <--- AGREGA ESTA LÍNEA
+import 'viewmodel/health_viewmodel.dart'; // <--- Corrige esto si no está
 
 class FitsApp extends StatelessWidget {
   const FitsApp({super.key});
@@ -15,7 +15,7 @@ class FitsApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
         ChangeNotifierProvider(create: (_) => UserViewModel()),
-        ChangeNotifierProvider(create: (_) => HealthProfileViewModel()), // <--- AGREGA ESTA LÍNEA
+        ChangeNotifierProvider(create: (_) => HealthViewModel()), // <--- Cambia aquí también
       ],
       child: MaterialApp(
         title: 'Fits App',

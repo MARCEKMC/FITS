@@ -1,70 +1,99 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../viewmodel/health_viewmodel.dart';
-import '../../widgets/health/calories_progress_bar.dart';
-import '../../widgets/health/water_tracker.dart';
-import '../../widgets/health/food_section.dart';
-import '../../widgets/health/day_slider.dart'; // IMPORTANTE: agrega esta línea
+import 'health_survey_screen.dart';
+import 'food_main_screen.dart';
 
-class HealthScreen extends StatelessWidget {
+class HealthScreen extends StatefulWidget {
   const HealthScreen({super.key});
+
+  @override
+  State<HealthScreen> createState() => _HealthScreenState();
+}
+
+class _HealthScreenState extends State<HealthScreen> {
+  int _selectedSection = 0;
 
   @override
   Widget build(BuildContext context) {
     final healthVM = Provider.of<HealthViewModel>(context);
-    final profile = healthVM.profile;
 
-    if (profile == null) {
-      return const Scaffold(
+    // Pantalla inicial con los dos botones
+    if (_selectedSection == 0) {
+      return Scaffold(
         backgroundColor: Colors.white,
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
-
-    final today = DateTime.now();
-    final selectedDay = healthVM.selectedDate;
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
-          children: [
-            // Calendario y "Hoy"
-            Row(
+        body: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(Icons.calendar_today_rounded, size: 22),
-                const SizedBox(width: 6),
-                TextButton(
-                  onPressed: () => healthVM.setSelectedDate(today),
-                  child: const Text("Hoy", style: TextStyle(fontWeight: FontWeight.bold)),
+                ElevatedButton(
+                  onPressed: () async {
+                    // Verifica si ya hay perfil de salud
+                    final hasProfile = await healthVM.hasHealthProfile();
+                    if (!hasProfile) {
+                      // Si no hay perfil, muestra la encuesta y espera el resultado
+                      final completed = await Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const HealthSurveyScreen(),
+                        ),
+                      );
+                      if (completed == true) {
+                        setState(() => _selectedSection = 1);
+                      }
+                    } else {
+                      setState(() => _selectedSection = 1);
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(220, 60),
+                    textStyle: const TextStyle(fontSize: 20),
+                  ),
+                  child: const Text("Alimentación"),
                 ),
-                const Spacer(),
-                Text(
-                  "${profile.dailyCalories.toStringAsFixed(0)} kcal objetivo",
-                  style: const TextStyle(fontWeight: FontWeight.w500, color: Colors.grey),
+                const SizedBox(height: 32),
+                ElevatedButton(
+                  onPressed: () {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Próximamente: Ejercicios')),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(220, 60),
+                    textStyle: const TextStyle(fontSize: 20),
+                  ),
+                  child: const Text("Ejercicios"),
                 ),
               ],
             ),
-            const SizedBox(height: 10),
-            // Barra de progreso de calorías
-            CaloriesProgressBar(),
-            const SizedBox(height: 22),
-            // Barra de días
-            DaySlider(
-              initialDate: healthVM.selectedDate,
-              onDateSelected: healthVM.setSelectedDate,
-            ),
-            const SizedBox(height: 22),
-            // Comidas y calorías del día
-            FoodSection(date: selectedDay),
-            const SizedBox(height: 28),
-            // Agua
-            const Text("Agua:", style: TextStyle(fontWeight: FontWeight.w600)),
-            const SizedBox(height: 8),
-            WaterTracker(),
-          ],
+          ),
         ),
+      );
+    }
+
+    // Sección de alimentación (ya respondió encuesta)
+    return WillPopScope(
+      onWillPop: () async {
+        setState(() {
+          _selectedSection = 0;
+        });
+        return false;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: const Text("Alimentación"),
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              setState(() {
+                _selectedSection = 0;
+              });
+            },
+          ),
+        ),
+        body: const FoodMainScreen(),
       ),
     );
   }
