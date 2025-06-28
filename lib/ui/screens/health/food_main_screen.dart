@@ -10,6 +10,7 @@ import '../../widgets/health/days_slider.dart';
 import '../../widgets/health/calories_progress_bar.dart';
 import '../../widgets/health/meal_section.dart';
 import '../../widgets/health/water_tracker.dart';
+import '../../widgets/health/macros_circular_bar.dart'; // <--- Importa tu widget
 
 class FoodMainScreen extends StatefulWidget {
   const FoodMainScreen({super.key});
@@ -52,6 +53,16 @@ class _FoodMainScreenState extends State<FoodMainScreen> {
 
     final kcalObjetivo = profile.kcalObjetivo.round();
     final totalKcal = foodVM.totalKcalDay();
+
+    // Obtén los totales diarios de macros
+    final totalCarbs = foodVM.totalCarbsDay();
+    final totalProtein = foodVM.totalProteinDay();
+    final totalFat = foodVM.totalFatDay();
+
+    // Pon aquí tus metas (puedes obtenerlas de tu perfil si las tienes)
+    final carbsGoal = 250.0;
+    final proteinGoal = 120.0;
+    final fatGoal = 70.0;
 
     final mealTypes = [
       'Desayuno',
@@ -104,14 +115,33 @@ class _FoodMainScreenState extends State<FoodMainScreen> {
                 mealName: meal,
                 calories: kcal,
                 foods: foods,
-                onAddFood: (name, kcal) async {
-                  await foodVM.addFoodEntry(meal, name, kcal, selectedDate);
+                // <---- Cambiado para aceptar macros correctamente
+                onAddFood: (name, kcal, {carbs, protein, fat}) async {
+                  await foodVM.addFoodEntry(
+                    meal,
+                    name,
+                    kcal,
+                    selectedDate,
+                    carbs: carbs,
+                    protein: protein,
+                    fat: fat,
+                  );
                 },
                 onDelete: (food) async {
                   await foodVM.deleteFoodEntry(food['id'], selectedDate);
                 },
               );
             }),
+            const SizedBox(height: 24),
+            // Aquí va la barra de macros
+            MacrosCircularBar(
+              carbs: totalCarbs,
+              protein: totalProtein,
+              fat: totalFat,
+              carbsGoal: carbsGoal,
+              proteinGoal: proteinGoal,
+              fatGoal: fatGoal,
+            ),
             const SizedBox(height: 24),
             Selector<WaterViewModel, int>(
               selector: (_, vm) => vm.glasses,

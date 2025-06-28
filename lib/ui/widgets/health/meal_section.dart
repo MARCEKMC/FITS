@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import '../../../data/models/food_search_result.dart'; 
-import '../../../data/services/food_search_service.dart'; 
+import '../../../data/models/food_search_result.dart';
+import '../../../data/services/food_search_service.dart';
 
 class MealSection extends StatelessWidget {
   final String mealName;
   final int calories;
-  final Future<void> Function(String name, int kcal)? onAddFood; // callback para agregar alimento
+  final Future<void> Function(String name, int kcal, {double? carbs, double? protein, double? fat})? onAddFood; // callback para agregar alimento con macros
   final List<Map<String, dynamic>> foods; // {id, name, kcal}
   final void Function(Map<String, dynamic> food)? onDelete;
 
@@ -101,7 +101,13 @@ class MealSection extends StatelessWidget {
                           ),
                           onTap: () async {
                             if (onAddFood != null) {
-                              await onAddFood!(food.name, food.kcal?.round() ?? 0);
+                              await onAddFood!(
+                                food.name,
+                                food.kcal?.round() ?? 0,
+                                carbs: food.carbs,
+                                protein: food.protein,
+                                fat: food.fat,
+                              );
                             }
                             Navigator.of(ctx).pop();
                           },

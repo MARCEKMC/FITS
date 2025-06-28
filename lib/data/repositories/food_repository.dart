@@ -14,10 +14,12 @@ class FoodRepository {
         .where('date', isLessThan: end.toIso8601String())
         .get();
 
+    // FoodEntry.fromMap debe soportar carbs, protein y fat opcionales.
     return snapshot.docs.map((doc) => FoodEntry.fromMap(doc.data())).toList();
   }
 
   Future<void> addFoodEntry(FoodEntry entry) async {
+    // entry.toMap() debe incluir carbs, protein y fat si existen.
     await _db.collection('food_entries').doc(entry.id).set(entry.toMap());
   }
 

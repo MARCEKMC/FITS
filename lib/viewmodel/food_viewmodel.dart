@@ -19,7 +19,15 @@ class FoodViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> addFoodEntry(String mealType, String name, int kcal, DateTime date) async {
+  Future<void> addFoodEntry(
+    String mealType,
+    String name,
+    int kcal,
+    DateTime date, {
+    double? carbs,
+    double? protein,
+    double? fat,
+  }) async {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) return;
     final normalizedDate = DateTime(date.year, date.month, date.day);
@@ -30,6 +38,9 @@ class FoodViewModel extends ChangeNotifier {
       mealType: mealType,
       name: name,
       kcal: kcal,
+      carbs: carbs,
+      protein: protein,
+      fat: fat,
     );
     await _repo.addFoodEntry(entry);
     await loadEntriesForDate(normalizedDate);
@@ -44,4 +55,11 @@ class FoodViewModel extends ChangeNotifier {
       _foodEntries.where((e) => e.mealType == meal).fold(0, (sum, e) => sum + e.kcal);
 
   int totalKcalDay() => _foodEntries.fold(0, (sum, e) => sum + e.kcal);
+
+  double totalCarbsDay() =>
+      _foodEntries.fold(0.0, (sum, e) => sum + (e.carbs ?? 0.0));
+  double totalProteinDay() =>
+      _foodEntries.fold(0.0, (sum, e) => sum + (e.protein ?? 0.0));
+  double totalFatDay() =>
+      _foodEntries.fold(0.0, (sum, e) => sum + (e.fat ?? 0.0));
 }

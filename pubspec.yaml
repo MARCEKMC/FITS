@@ -44,6 +44,9 @@ dependencies:
   # Safe area and screen utils (opcional, recomendados para layouts modernos)
   flutter_screenutil: ^5.9.0
 
+  # Circular percent indicators para barras de macros
+  percent_indicator: ^4.2.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
