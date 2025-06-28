@@ -104,82 +104,8 @@ class _FoodMainScreenState extends State<FoodMainScreen> {
                 mealName: meal,
                 calories: kcal,
                 foods: foods,
-                onAdd: () async {
-                  final nameController = TextEditingController();
-                  final kcalController = TextEditingController();
-                  await showDialog(
-                    context: context,
-                    builder: (ctx) => AlertDialog(
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18), side: const BorderSide(color: Colors.black12)),
-                      title: Text(
-                        'Agregar alimento a $meal',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black87,
-                        ),
-                      ),
-                      content: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          TextField(
-                            controller: nameController,
-                            style: const TextStyle(color: Colors.black87),
-                            decoration: InputDecoration(
-                              labelText: 'Nombre',
-                              labelStyle: const TextStyle(color: Colors.black54),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Colors.black26)),
-                              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Colors.black87)),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                              filled: true,
-                              fillColor: Colors.grey[100],
-                            ),
-                          ),
-                          const SizedBox(height: 12),
-                          TextField(
-                            controller: kcalController,
-                            style: const TextStyle(color: Colors.black87),
-                            decoration: InputDecoration(
-                              labelText: 'Kcal',
-                              labelStyle: const TextStyle(color: Colors.black54),
-                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Colors.black26)),
-                              focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: const BorderSide(color: Colors.black87)),
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                              filled: true,
-                              fillColor: Colors.grey[100],
-                            ),
-                            keyboardType: TextInputType.number,
-                          ),
-                        ],
-                      ),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.pop(ctx);
-                          },
-                          style: TextButton.styleFrom(
-                            foregroundColor: Colors.black87,
-                          ),
-                          child: const Text('Cancelar'),
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black87,
-                            foregroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-                            elevation: 0,
-                          ),
-                          onPressed: () async {
-                            if (nameController.text.isEmpty || kcalController.text.isEmpty) return;
-                            final kcal = int.tryParse(kcalController.text) ?? 0;
-                            await foodVM.addFoodEntry(meal, nameController.text, kcal, selectedDate);
-                            Navigator.pop(ctx);
-                          },
-                          child: const Text('Agregar'),
-                        ),
-                      ],
-                    ),
-                  );
+                onAddFood: (name, kcal) async {
+                  await foodVM.addFoodEntry(meal, name, kcal, selectedDate);
                 },
                 onDelete: (food) async {
                   await foodVM.deleteFoodEntry(food['id'], selectedDate);
@@ -187,7 +113,6 @@ class _FoodMainScreenState extends State<FoodMainScreen> {
               );
             }),
             const SizedBox(height: 24),
-            // Eliminado el texto "Agua (2.5L = 10 vasos)"
             Selector<WaterViewModel, int>(
               selector: (_, vm) => vm.glasses,
               builder: (context, glasses, _) {

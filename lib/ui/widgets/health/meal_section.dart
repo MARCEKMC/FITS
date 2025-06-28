@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import '../../../data/models/food_search_result.dart'; 
+import '../../../data/services/food_search_service.dart'; 
 
 class MealSection extends StatelessWidget {
   final String mealName;
   final int calories;
-  final VoidCallback onAdd;
+  final Future<void> Function(String name, int kcal)? onAddFood; // callback para agregar alimento
   final List<Map<String, dynamic>> foods; // {id, name, kcal}
   final void Function(Map<String, dynamic> food)? onDelete;
 
@@ -20,10 +22,106 @@ class MealSection extends StatelessWidget {
     super.key,
     required this.mealName,
     required this.calories,
-    required this.onAdd,
+    required this.onAddFood,
     required this.foods,
     this.onDelete,
   });
+
+  Future<void> _showFoodSearchDialog(BuildContext context) async {
+    final service = FoodSearchService();
+    final controller = TextEditingController();
+    List<FoodSearchResult> results = [];
+    bool loading = false;
+    String? error;
+
+    await showDialog(
+      context: context,
+      builder: (ctx) {
+        return StatefulBuilder(
+          builder: (ctx, setState) => AlertDialog(
+            backgroundColor: Colors.white,
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18),
+                side: const BorderSide(color: Colors.black12)),
+            title: Text(
+              'Buscar alimento para $mealName',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.black87,
+              ),
+            ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextField(
+                  controller: controller,
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    labelText: 'Nombre del alimento',
+                  ),
+                  onSubmitted: (text) async {
+                    setState(() {
+                      loading = true;
+                      error = null;
+                    });
+                    try {
+                      final res = await service.searchFoods(text);
+                      setState(() {
+                        results = res;
+                        loading = false;
+                      });
+                    } catch (e) {
+                      setState(() {
+                        error = 'Error al buscar alimentos';
+                        loading = false;
+                      });
+                    }
+                  },
+                ),
+                const SizedBox(height: 10),
+                if (loading)
+                  const CircularProgressIndicator(),
+                if (error != null)
+                  Text(error!, style: const TextStyle(color: Colors.red)),
+                if (!loading && results.isNotEmpty)
+                  SizedBox(
+                    height: 220,
+                    width: 320,
+                    child: ListView.builder(
+                      itemCount: results.length,
+                      itemBuilder: (_, i) {
+                        final food = results[i];
+                        return ListTile(
+                          title: Text(food.name),
+                          subtitle: Text(
+                            "Kcal: ${food.kcal?.toStringAsFixed(0) ?? '-'}, "
+                            "C: ${food.carbs?.toStringAsFixed(1) ?? '-'}g, "
+                            "P: ${food.protein?.toStringAsFixed(1) ?? '-'}g, "
+                            "G: ${food.fat?.toStringAsFixed(1) ?? '-'}g",
+                          ),
+                          onTap: () async {
+                            if (onAddFood != null) {
+                              await onAddFood!(food.name, food.kcal?.round() ?? 0);
+                            }
+                            Navigator.of(ctx).pop();
+                          },
+                        );
+                      },
+                    ),
+                  ),
+              ],
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(ctx).pop(),
+                child: const Text('Cancelar'),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -188,7 +286,7 @@ class MealSection extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(top: 8, bottom: 4),
                 child: OutlinedButton.icon(
-                  onPressed: onAdd,
+                  onPressed: () => _showFoodSearchDialog(context),
                   icon: const Icon(Icons.add, size: 20, color: Colors.black87),
                   label: const Text("Agregar alimento", style: TextStyle(color: Colors.black87)),
                   style: OutlinedButton.styleFrom(
