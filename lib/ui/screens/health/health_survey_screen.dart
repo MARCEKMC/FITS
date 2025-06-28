@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../data/models/health_profile.dart';
 import '../../../viewmodel/health_viewmodel.dart';
 import '../../../viewmodel/user_viewmodel.dart';
+import 'food_main_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class HealthSurveyScreen extends StatefulWidget {
@@ -161,7 +162,6 @@ class _HealthSurveyScreenState extends State<HealthSurveyScreen> {
                     onPressed: () async {
                       setState(() => _loading = true);
 
-                      // Validación básica
                       if (objetivo == null ||
                           _pesoController.text.isEmpty ||
                           _alturaController.text.isEmpty ||
@@ -185,7 +185,6 @@ class _HealthSurveyScreenState extends State<HealthSurveyScreen> {
                         return;
                       }
 
-                      // Cálculo simple de kcal objetivo (puedes cambiar la fórmula)
                       final double kcalObjetivo = 24 * peso * (objetivo == 'ganar'
                           ? 1.2
                           : objetivo == 'mantener'
@@ -208,7 +207,12 @@ class _HealthSurveyScreenState extends State<HealthSurveyScreen> {
                           .saveProfile(profile);
 
                       setState(() => _loading = false);
-                      if (mounted) Navigator.pop(context, true);
+                      if (mounted) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (_) => const FoodMainScreen()),
+                        );
+                      }
                     },
                     child: const Text("Guardar"),
                   ),
