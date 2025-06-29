@@ -18,12 +18,7 @@ class FitsApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => AuthViewModel()),
-        ChangeNotifierProvider(create: (_) => UserViewModel()),
-        ChangeNotifierProvider(create: (_) => HealthViewModel()),
-        ChangeNotifierProvider(create: (_) => FoodViewModel()),
-        ChangeNotifierProvider(create: (_) => WaterViewModel()),
-        ChangeNotifierProvider(create: (_) => SelectedDateViewModel()),
-        ChangeNotifierProvider(create: (_) => ExerciseViewModel()), // AGREGA ESTA LÍNEA
+        ChangeNotifierProvider(create: (_) => UserViewModel())
       ],
       child: MaterialApp(
         title: 'Fits App',

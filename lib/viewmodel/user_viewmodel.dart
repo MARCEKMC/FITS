@@ -23,6 +23,11 @@ class UserViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  /// Verifica si el username está tomado
+  Future<bool> isUsernameTaken(String username) async {
+    return await _repo.isUsernameTaken(username);
+  }
+
   /// Retorna true SOLO si el perfil está realmente completo
   bool get isProfileComplete => _profile != null && _profile!.isReallyComplete;
 }

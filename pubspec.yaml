@@ -35,21 +35,6 @@ dependencies:
   # Generador de identificadores únicos (para modelos con id)
   uuid: ^4.3.3
 
-  # Para llamadas HTTP (necesario para la integración con Open Food Facts y WGER)
-  http: ^1.2.1
-
-  # Animations
-  flutter_animate: ^4.5.0
-
-  # Safe area and screen utils (opcional, recomendados para layouts modernos)
-  flutter_screenutil: ^5.9.0
-
-  # Circular percent indicators para barras de macros
-  percent_indicator: ^4.2.3
-
-  # HTML parser (para limpiar descripciones HTML de WGER)
-  html: ^0.15.4
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -57,6 +42,6 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
   assets:
-    - assets/exercise/
-    - assets/exercises.json
+    - lib/core/utils/images/
