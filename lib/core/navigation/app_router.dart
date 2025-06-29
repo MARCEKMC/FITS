@@ -3,8 +3,7 @@ import 'package:fits/ui/screens/auth/splash_screen.dart';
 import 'package:fits/ui/screens/auth/auth_screen.dart';
 import 'package:fits/ui/screens/auth/verification_loading_screen.dart';
 import 'package:fits/ui/screens/auth/complete_profile_screen.dart';
-import 'package:fits/ui/screens/home/home_screen.dart';
-// Elimina los imports de health
+import 'package:fits/ui/screens/main/main_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -17,11 +16,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const VerificationLoadingScreen());
       case '/complete_profile':
         return MaterialPageRoute(builder: (_) => const CompleteProfileScreen());
-      case '/home':
-        return MaterialPageRoute(builder: (_) => const HomeScreen());
-      // Elimina estas rutas:
-      // case '/health_onboarding':
-      // case '/health_main':
+      case '/main': 
+        return MaterialPageRoute(builder: (_) => const MainScreen());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(
