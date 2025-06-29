@@ -1,0 +1,498 @@
+[
+  {
+    "id": "Dumbbell_Flyes",
+    "name": "Dumbbell Flyes",
+    "description": "Aislamiento de pectorales con mancuernas en banco. Ideal para estirar y contraer el pecho.",
+    "primaryMuscles": ["Pectoralis Major"],
+    "category": "Chest",
+    "images": ["Dumbbell_Flyes/0.jpg", "Dumbbell_Flyes/1.jpg"]
+  },
+  {
+    "id": "Dumbbell_Lunges",
+    "name": "Dumbbell Lunges",
+    "description": "Zancadas con mancuernas, excelente para trabajar piernas y glúteos.",
+    "primaryMuscles": ["Quadriceps", "Glutes", "Hamstrings"],
+    "category": "Legs",
+    "images": ["Dumbbell_Lunges/0.jpg", "Dumbbell_Lunges/1.jpg"]
+  },
+  {
+    "id": "Dumbbell_Step_Ups",
+    "name": "Dumbbell Step Ups",
+    "description": "Subidas al banco con mancuernas, enfocando el trabajo en muslos y glúteos.",
+    "primaryMuscles": ["Quadriceps", "Glutes"],
+    "category": "Legs",
+    "images": ["Dumbbell_Step_Ups/0.jpg", "Dumbbell_Step_Ups/1.jpg"]
+  },
+  {
+    "id": "Freehand_Jump_Squat",
+    "name": "Freehand Jump Squat",
+    "description": "Sentadilla con salto usando solo peso corporal, excelente para potencia y cardio.",
+    "primaryMuscles": ["Quadriceps", "Glutes", "Calves"],
+    "category": "Legs",
+    "images": ["Freehand_Jump_Squat/0.jpg", "Freehand_Jump_Squat/1.jpg"]
+  },
+  {
+    "id": "Lying_Close-Grip_Bar_Curl_On_High_Pulley",
+    "name": "Lying Close-Grip Bar Curl On High Pulley",
+    "description": "Curl acostado con barra y agarre cerrado en polea alta, enfocado en bíceps.",
+    "primaryMuscles": ["Biceps"],
+    "category": "Arms",
+    "images": ["Lying_Close-Grip_Bar_Curl_On_High_Pulley/0.jpg", "Lying_Close-Grip_Bar_Curl_On_High_Pulley/1.jpg"]
+  },
+  {
+    "id": "Lying_Dumbbell_Tricep_Extension",
+    "name": "Lying Dumbbell Tricep Extension",
+    "description": "Extensión de tríceps con mancuernas en banco plano, trabaja la cabeza larga del tríceps.",
+    "primaryMuscles": ["Triceps"],
+    "category": "Arms",
+    "images": ["Lying_Dumbbell_Tricep_Extension/0.jpg", "Lying_Dumbbell_Tricep_Extension/1.jpg"]
+  },
+  {
+    "id": "Lying_Leg_Curls",
+    "name": "Lying Leg Curls",
+    "description": "Curl de piernas acostado en máquina, ideal para isquiotibiales.",
+    "primaryMuscles": ["Hamstrings"],
+    "category": "Legs",
+    "images": ["Lying_Leg_Curls/0.jpg", "Lying_Leg_Curls/1.jpg"]
+  },
+  {
+    "id": "Lying_T-Bar_Row",
+    "name": "Lying T-Bar Row",
+    "description": "Remo acostado con barra T, excelente para espalda media y baja.",
+    "primaryMuscles": ["Latissimus Dorsi", "Rhomboids", "Trapezius"],
+    "category": "Back",
+    "images": ["Lying_T-Bar_Row/0.jpg", "Lying_T-Bar_Row/1.jpg"]
+  },
+  {
+    "id": "Machine_Bench_Press",
+    "name": "Machine Bench Press",
+    "description": "Press de pecho en máquina, ideal para principiantes y aislar el pectoral.",
+    "primaryMuscles": ["Pectoralis Major"],
+    "category": "Chest",
+    "images": ["Machine_Bench_Press/0.jpg", "Machine_Bench_Press/1.jpg"]
+  },
+  {
+    "id": "Machine_Bicep_Curl",
+    "name": "Machine Bicep Curl",
+    "description": "Curl de bíceps en máquina, permite un movimiento controlado.",
+    "primaryMuscles": ["Biceps"],
+    "category": "Arms",
+    "images": ["Machine_Bicep_Curl/0.jpg", "Machine_Bicep_Curl/1.jpg"]
+  },
+  {
+    "id": "Medicine_Ball_Chest_Pass",
+    "name": "Medicine Ball Chest Pass",
+    "description": "Lanzamiento de balón medicinal desde el pecho, potencia y explosividad.",
+    "primaryMuscles": ["Pectoralis Major", "Triceps"],
+    "category": "Chest",
+    "images": ["Medicine_Ball_Chest_Pass/0.jpg", "Medicine_Ball_Chest_Pass/1.jpg"]
+  },
+  {
+    "id": "Mixed_Grip_Chin",
+    "name": "Mixed Grip Chin-Up",
+    "description": "Dominada con agarre mixto, trabaja espalda y bíceps.",
+    "primaryMuscles": ["Latissimus Dorsi", "Biceps"],
+    "category": "Back",
+    "images": ["Mixed_Grip_Chin/0.jpg", "Mixed_Grip_Chin/1.jpg"]
+  },
+  {
+    "id": "Mountain_Climbers",
+    "name": "Mountain Climbers",
+    "description": "Ejercicio cardiovascular que activa abdomen, hombros y piernas.",
+    "primaryMuscles": ["Rectus Abdominis", "Hip Flexors", "Shoulders"],
+    "category": "Abs",
+    "images": ["Mountain_Climbers/0.jpg", "Mountain_Climbers/1.jpg"]
+  },
+  {
+    "id": "Muscle_Up",
+    "name": "Muscle Up",
+    "description": "Dominada explosiva que termina por encima de la barra, fuerza total de torso.",
+    "primaryMuscles": ["Latissimus Dorsi", "Pectoralis Major", "Triceps", "Biceps"],
+    "category": "Full Body",
+    "images": ["Muscle_Up/0.jpg", "Muscle_Up/1.jpg"]
+  },
+  {
+    "id": "Narrow_Stance_Squats",
+    "name": "Narrow Stance Squats",
+    "description": "Sentadilla con pies juntos, enfoca más los cuádriceps.",
+    "primaryMuscles": ["Quadriceps"],
+    "category": "Legs",
+    "images": ["Narrow_Stance_Squats/0.jpg", "Narrow_Stance_Squats/1.jpg"]
+  },
+  {
+    "id": "One_Arm_Dumbbell_Bench_Press",
+    "name": "One Arm Dumbbell Bench Press",
+    "description": "Press de banca a un brazo con mancuerna, activa el core y el pectoral.",
+    "primaryMuscles": ["Pectoralis Major", "Triceps", "Shoulders"],
+    "category": "Chest",
+    "images": ["One_Arm_Dumbbell_Bench_Press/0.jpg", "One_Arm_Dumbbell_Bench_Press/1.jpg"]
+  },
+  {
+    "id": "One_Arm_Dumbbell_Preacher_Curl",
+    "name": "One Arm Dumbbell Preacher Curl",
+    "description": "Curl de predicador a un brazo, aísla el bíceps.",
+    "primaryMuscles": ["Biceps"],
+    "category": "Arms",
+    "images": ["One_Arm_Dumbbell_Preacher_Curl/0.jpg", "One_Arm_Dumbbell_Preacher_Curl/1.jpg"]
+  },
+  {
+    "id": "One_Arm_Lat_Pulldown",
+    "name": "One Arm Lat Pulldown",
+    "description": "Jalón unilateral en polea alta para trabajar dorsales.",
+    "primaryMuscles": ["Latissimus Dorsi"],
+    "category": "Back",
+    "images": ["One_Arm_Lat_Pulldown/0.jpg", "One_Arm_Lat_Pulldown/1.jpg"]
+  },
+  {
+    "id": "One-Arm_Dumbbell_Row",
+    "name": "One-Arm Dumbbell Row",
+    "description": "Remo a un brazo con mancuerna, espalda y dorsales.",
+    "primaryMuscles": ["Latissimus Dorsi", "Rhomboids"],
+    "category": "Back",
+    "images": ["One-Arm_Dumbbell_Row/0.jpg", "One-Arm_Dumbbell_Row/1.jpg"]
+  },
+  {
+    "id": "One-Arm_Kettlebell_Row",
+    "name": "One-Arm Kettlebell Row",
+    "description": "Remo unilateral con kettlebell, activa espalda y core.",
+    "primaryMuscles": ["Latissimus Dorsi", "Rhomboids", "Biceps"],
+    "category": "Back",
+    "images": ["One-Arm_Kettlebell_Row/0.jpg", "One-Arm_Kettlebell_Row/1.jpg"]
+  },
+  {
+    "id": "Otis-Up",
+    "name": "Otis-Up",
+    "description": "Abdominal avanzado, requiere fuerza del core y control.",
+    "primaryMuscles": ["Rectus Abdominis"],
+    "category": "Abs",
+    "images": ["Otis-Up/0.jpg", "Otis-Up/1.jpg"]
+  },
+  {
+    "id": "Plank",
+    "name": "Plank",
+    "description": "Plancha, isométrico para abdomen, core y espalda.",
+    "primaryMuscles": ["Rectus Abdominis", "Obliques", "Lower Back"],
+    "category": "Abs",
+    "images": ["Plank/0.jpg", "Plank/1.jpg"]
+  },
+  {
+    "id": "Plyo_Push-up",
+    "name": "Plyo Push-up",
+    "description": "Push-up pliométrico, potencia y explosividad en el pectoral.",
+    "primaryMuscles": ["Pectoralis Major", "Triceps"],
+    "category": "Chest",
+    "images": ["Plyo_Push-up/0.jpg", "Plyo_Push-up/1.jpg"]
+  },
+  {
+    "id": "Preacher_Curl",
+    "name": "Preacher Curl",
+    "description": "Curl de bíceps en banco Scott, aísla el bíceps.",
+    "primaryMuscles": ["Biceps"],
+    "category": "Arms",
+    "images": ["Preacher_Curl/0.jpg", "Preacher_Curl/1.jpg"]
+  },
+  {
+    "id": "Pullups",
+    "name": "Pullups",
+    "description": "Dominadas clásicas, trabajan espalda, dorsales y bíceps.",
+    "primaryMuscles": ["Latissimus Dorsi", "Biceps"],
+    "category": "Back",
+    "images": ["Pullups/0.jpg", "Pullups/1.jpg"]
+  },
+  {
+    "id": "Push_Up_to_Side_Plank",
+    "name": "Push Up to Side Plank",
+    "description": "Push-up seguido de plancha lateral, combina pecho y core.",
+    "primaryMuscles": ["Pectoralis Major", "Triceps", "Obliques"],
+    "category": "Chest",
+    "images": ["Push_Up_to_Side_Plank/0.jpg", "Push_Up_to_Side_Plank/1.jpg"]
+  },
+  {
+    "id": "Pushups",
+    "name": "Pushups",
+    "description": "El push-up tradicional trabaja pectorales, tríceps y core.",
+    "primaryMuscles": ["Pectoralis Major", "Triceps", "Shoulders"],
+    "category": "Chest",
+    "images": ["Pushups/0.jpg", "Pushups/1.jpg"]
+  },
+  {
+    "id": "Pushups_Close_and_Wide_Hand_Positions",
+    "name": "Pushups (Close and Wide Hand Positions)",
+    "description": "Push-ups variando el ancho de las manos para diferentes zonas del pecho.",
+    "primaryMuscles": ["Pectoralis Major", "Triceps"],
+    "category": "Chest",
+    "images": ["Pushups_Close_and_Wide_Hand_Positions/0.jpg", "Pushups_Close_and_Wide_Hand_Positions/1.jpg"]
+  },
+  {
+    "id": "Push-Ups_With_Feet_Elevated",
+    "name": "Push-Ups With Feet Elevated",
+    "description": "Push-ups con pies elevados, mayor énfasis en la parte superior del pecho.",
+    "primaryMuscles": ["Pectoralis Major", "Triceps", "Shoulders"],
+    "category": "Chest",
+    "images": ["Push-Ups_With_Feet_Elevated/0.jpg", "Push-Ups_With_Feet_Elevated/1.jpg"]
+  },
+  {
+    "id": "Reverse_Crunch",
+    "name": "Reverse Crunch",
+    "description": "Crunch inverso, trabaja fuertemente el abdomen bajo.",
+    "primaryMuscles": ["Rectus Abdominis"],
+    "category": "Abs",
+    "images": ["Reverse_Crunch/0.jpg", "Reverse_Crunch/1.jpg"]
+  },
+  {
+    "id": "Reverse_Grip_Bent-Over_Rows",
+    "name": "Reverse Grip Bent-Over Rows",
+    "description": "Remo inclinado con agarre invertido, para parte media de la espalda.",
+    "primaryMuscles": ["Latissimus Dorsi", "Biceps"],
+    "category": "Back",
+    "images": ["Reverse_Grip_Bent-Over_Rows/0.jpg", "Reverse_Grip_Bent-Over_Rows/1.jpg"]
+  },
+  {
+    "id": "Reverse_Grip_Triceps_Pushdown",
+    "name": "Reverse Grip Triceps Pushdown",
+    "description": "Extensión de tríceps en polea baja con agarre invertido.",
+    "primaryMuscles": ["Triceps"],
+    "category": "Arms",
+    "images": ["Reverse_Grip_Triceps_Pushdown/0.jpg", "Reverse_Grip_Triceps_Pushdown/1.jpg"]
+  },
+  {
+    "id": "Rocky_Pull-Ups_Pulldowns",
+    "name": "Rocky Pull-Ups/Pulldowns",
+    "description": "Variación dinámica de dominadas o jalones, exige control y fuerza.",
+    "primaryMuscles": ["Latissimus Dorsi", "Biceps"],
+    "category": "Back",
+    "images": ["Rocky_Pull-Ups_Pulldowns/0.jpg", "Rocky_Pull-Ups_Pulldowns/1.jpg"]
+  },
+  {
+    "id": "Romanian_Deadlift",
+    "name": "Romanian Deadlift",
+    "description": "Peso muerto rumano, clave para isquiotibiales y glúteos.",
+    "primaryMuscles": ["Hamstrings", "Glutes", "Lower Back"],
+    "category": "Legs",
+    "images": ["Romanian_Deadlift/0.jpg", "Romanian_Deadlift/1.jpg"]
+  },
+  {
+    "id": "Rope_Crunch",
+    "name": "Rope Crunch",
+    "description": "Crunch en polea con cuerda, enfocado en el abdomen.",
+    "primaryMuscles": ["Rectus Abdominis"],
+    "category": "Abs",
+    "images": ["Rope_Crunch/0.jpg", "Rope_Crunch/1.jpg"]
+  },
+  {
+    "id": "Rope_Straight-Arm_Pulldown",
+    "name": "Rope Straight-Arm Pulldown",
+    "description": "Jalón de cuerda con brazos rectos, activa dorsales y espalda alta.",
+    "primaryMuscles": ["Latissimus Dorsi", "Shoulders"],
+    "category": "Back",
+    "images": ["Rope_Straight-Arm_Pulldown/0.jpg", "Rope_Straight-Arm_Pulldown/1.jpg"]
+  },
+  {
+    "id": "Russian_Twist",
+    "name": "Russian Twist",
+    "description": "Giro ruso para abdomen oblicuo y core.",
+    "primaryMuscles": ["Obliques", "Rectus Abdominis"],
+    "category": "Abs",
+    "images": ["Russian_Twist/0.jpg", "Russian_Twist/1.jpg"]
+  },
+  {
+    "id": "Scissor_Kick",
+    "name": "Scissor Kick",
+    "description": "Patada de tijera en el suelo, excelente para el abdomen bajo.",
+    "primaryMuscles": ["Rectus Abdominis", "Hip Flexors"],
+    "category": "Abs",
+    "images": ["Scissor_Kick/0.jpg", "Scissor_Kick/1.jpg"]
+  },
+  {
+    "id": "Seated_Cable_Rows",
+    "name": "Seated Cable Rows",
+    "description": "Remo sentado en polea, trabaja espalda media y romboides.",
+    "primaryMuscles": ["Latissimus Dorsi", "Rhomboids"],
+    "category": "Back",
+    "images": ["Seated_Cable_Rows/0.jpg", "Seated_Cable_Rows/1.jpg"]
+  },
+  {
+    "id": "Seated_Dumbbell_Curl",
+    "name": "Seated Dumbbell Curl",
+    "description": "Curl de bíceps sentado, concentración y control.",
+    "primaryMuscles": ["Biceps"],
+    "category": "Arms",
+    "images": ["Seated_Dumbbell_Curl/0.jpg", "Seated_Dumbbell_Curl/1.jpg"]
+  },
+  {
+    "id": "Seated_Flat_Bench_Leg_Pull-In",
+    "name": "Seated Flat Bench Leg Pull-In",
+    "description": "Abdominal en banco plano con elevación de piernas.",
+    "primaryMuscles": ["Rectus Abdominis", "Hip Flexors"],
+    "category": "Abs",
+    "images": ["Seated_Flat_Bench_Leg_Pull-In/0.jpg", "Seated_Flat_Bench_Leg_Pull-In/1.jpg"]
+  },
+  {
+    "id": "Seated_Leg_Curl",
+    "name": "Seated Leg Curl",
+    "description": "Curl de piernas sentado en máquina para isquiotibiales.",
+    "primaryMuscles": ["Hamstrings"],
+    "category": "Legs",
+    "images": ["Seated_Leg_Curl/0.jpg", "Seated_Leg_Curl/1.jpg"]
+  },
+  {
+    "id": "Seated_Triceps_Press",
+    "name": "Seated Triceps Press",
+    "description": "Press de tríceps sentado, trabaja la cabeza larga del tríceps.",
+    "primaryMuscles": ["Triceps"],
+    "category": "Arms",
+    "images": ["Seated_Triceps_Press/0.jpg", "Seated_Triceps_Press/1.jpg"]
+  },
+  {
+    "id": "Shotgun_Row",
+    "name": "Shotgun Row",
+    "description": "Remo tipo 'shotgun', variante para la espalda y dorsales.",
+    "primaryMuscles": ["Latissimus Dorsi", "Rhomboids"],
+    "category": "Back",
+    "images": ["Shotgun_Row/0.jpg", "Shotgun_Row/1.jpg"]
+  },
+  {
+    "id": "Side_Jackknife",
+    "name": "Side Jackknife",
+    "description": "Abdominal lateral en tijera, para oblicuos y abdomen.",
+    "primaryMuscles": ["Obliques", "Rectus Abdominis"],
+    "category": "Abs",
+    "images": ["Side_Jackknife/0.jpg", "Side_Jackknife/1.jpg"]
+  },
+  {
+    "id": "Single_Leg_Glute_Bridge",
+    "name": "Single Leg Glute Bridge",
+    "description": "Puente de glúteo a una pierna, activa glúteos e isquiotibiales.",
+    "primaryMuscles": ["Glutes", "Hamstrings"],
+    "category": "Legs",
+    "images": ["Single_Leg_Glute_Bridge/0.jpg", "Single_Leg_Glute_Bridge/1.jpg"]
+  },
+  {
+    "id": "Sit-Up",
+    "name": "Sit-Up",
+    "description": "Abdominal clásico, para trabajar el recto abdominal.",
+    "primaryMuscles": ["Rectus Abdominis"],
+    "category": "Abs",
+    "images": ["Sit-Up/0.jpg", "Sit-Up/1.jpg"]
+  },
+  {
+    "id": "Sled_Push",
+    "name": "Sled Push",
+    "description": "Empuje de trineo, ejercicio funcional para piernas y core.",
+    "primaryMuscles": ["Quadriceps", "Glutes", "Hamstrings", "Core"],
+    "category": "Full Body",
+    "images": ["Sled_Push/0.jpg", "Sled_Push/1.jpg"]
+  },
+  {
+    "id": "Smith_Machine_Bench_Press",
+    "name": "Smith Machine Bench Press",
+    "description": "Press de banca en máquina Smith, control total del movimiento.",
+    "primaryMuscles": ["Pectoralis Major", "Triceps"],
+    "category": "Chest",
+    "images": ["Smith_Machine_Bench_Press/0.jpg", "Smith_Machine_Bench_Press/1.jpg"]
+  },
+  {
+    "id": "Smith_Machine_Bent_Over_Row",
+    "name": "Smith Machine Bent Over Row",
+    "description": "Remo inclinado en máquina Smith, para la espalda media.",
+    "primaryMuscles": ["Latissimus Dorsi", "Rhomboids"],
+    "category": "Back",
+    "images": ["Smith_Machine_Bent_Over_Row/0.jpg", "Smith_Machine_Bent_Over_Row/1.jpg"]
+  },
+  {
+    "id": "Smith_Machine_Decline_Press",
+    "name": "Smith Machine Decline Press",
+    "description": "Press declinado en máquina Smith, énfasis en pectoral inferior.",
+    "primaryMuscles": ["Pectoralis Major", "Triceps"],
+    "category": "Chest",
+    "images": ["Smith_Machine_Decline_Press/0.jpg", "Smith_Machine_Decline_Press/1.jpg"]
+  },
+  {
+    "id": "Smith_Machine_Leg_Press",
+    "name": "Smith Machine Leg Press",
+    "description": "Prensa de piernas en máquina Smith, cuádriceps y glúteos.",
+    "primaryMuscles": ["Quadriceps", "Glutes"],
+    "category": "Legs",
+    "images": ["Smith_Machine_Leg_Press/0.jpg", "Smith_Machine_Leg_Press/1.jpg"]
+  },
+  {
+    "id": "Smith_Machine_Squat",
+    "name": "Smith Machine Squat",
+    "description": "Sentadilla en máquina Smith, más estabilidad y trabajo en piernas.",
+    "primaryMuscles": ["Quadriceps", "Glutes"],
+    "category": "Legs",
+    "images": ["Smith_Machine_Squat/0.jpg", "Smith_Machine_Squat/1.jpg"]
+  },
+  {
+    "id": "Snatch_Balance",
+    "name": "Snatch Balance",
+    "description": "Técnica de halterofilia para mejorar la recepción del snatch.",
+    "primaryMuscles": ["Shoulders", "Quadriceps", "Glutes"],
+    "category": "Full Body",
+    "images": ["Snatch_Balance/0.jpg", "Snatch_Balance/1.jpg"]
+  },
+  {
+    "id": "Spider_Crawl",
+    "name": "Spider Crawl",
+    "description": "Desplazamiento tipo araña, excelente para core y movilidad.",
+    "primaryMuscles": ["Core", "Shoulders", "Glutes"],
+    "category": "Full Body",
+    "images": ["Spider_Crawl/0.jpg", "Spider_Crawl/1.jpg"]
+  },
+  {
+    "id": "Split_Squat_with_Dumbbells",
+    "name": "Split Squat with Dumbbells",
+    "description": "Sentadilla búlgara con mancuernas, trabaja una pierna a la vez.",
+    "primaryMuscles": ["Quadriceps", "Glutes"],
+    "category": "Legs",
+    "images": ["Split_Squat_with_Dumbbells/0.jpg", "Split_Squat_with_Dumbbells/1.jpg"]
+  },
+  {
+    "id": "Standing_Biceps_Cable_Curl",
+    "name": "Standing Biceps Cable Curl",
+    "description": "Curl de bíceps de pie en polea, tensión constante.",
+    "primaryMuscles": ["Biceps"],
+    "category": "Arms",
+    "images": ["Standing_Biceps_Cable_Curl/0.jpg", "Standing_Biceps_Cable_Curl/1.jpg"]
+  },
+  {
+    "id": "Standing_Cable_Chest_Press",
+    "name": "Standing Cable Chest Press",
+    "description": "Press de pecho de pie en polea, activa core y pectorales.",
+    "primaryMuscles": ["Pectoralis Major", "Triceps", "Shoulders"],
+    "category": "Chest",
+    "images": ["Standing_Cable_Chest_Press/0.jpg", "Standing_Cable_Chest_Press/1.jpg"]
+  },
+  {
+    "id": "Standing_Calf_Raises",
+    "name": "Standing Calf Raises",
+    "description": "Elevaciones de talón de pie, para fortalecer las pantorrillas.",
+    "primaryMuscles": ["Calves"],
+    "category": "Legs",
+    "images": ["Standing_Calf_Raises/0.jpg", "Standing_Calf_Raises/1.jpg"]
+  },
+  {
+    "id": "Standing_Dumbbell_Reverse_Curl",
+    "name": "Standing Dumbbell Reverse Curl",
+    "description": "Curl inverso de bíceps con mancuernas, trabaja antebrazos y bíceps.",
+    "primaryMuscles": ["Biceps", "Forearms"],
+    "category": "Arms",
+    "images": ["Standing_Dumbbell_Reverse_Curl/0.jpg", "Standing_Dumbbell_Reverse_Curl/1.jpg"]
+  },
+  {
+    "id": "Standing_One-Arm_Cable_Curl",
+    "name": "Standing One-Arm Cable Curl",
+    "description": "Curl de bíceps a un brazo en polea de pie.",
+    "primaryMuscles": ["Biceps"],
+    "category": "Arms",
+    "images": ["Standing_One-Arm_Cable_Curl/0.jpg", "Standing_One-Arm_Cable_Curl/1.jpg"]
+  },
+  {
+    "id": "Standing_Rope_Crunch",
+    "name": "Standing Rope Crunch",
+    "description": "Crunch de pie en polea con cuerda, trabaja abdomen.",
+    "primaryMuscles": ["Rectus Abdominis"],
+    "category": "Abs",
+    "images": ["Standing_Rope_Crunch/0.jpg", "Standing_Rope_Crunch/1.jpg"]
+  }
+]

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../viewmodel/health_viewmodel.dart';
+import '../../../viewmodel/user_viewmodel.dart';
 import 'health_survey_screen.dart';
 import 'food_main_screen.dart';
+// Importa tu pantalla de ejercicios cuando la crees:
+import 'exercise_main_screen.dart';
 
 class HealthScreen extends StatefulWidget {
   const HealthScreen({super.key});
@@ -18,7 +21,6 @@ class _HealthScreenState extends State<HealthScreen> {
   Widget build(BuildContext context) {
     final healthVM = Provider.of<HealthViewModel>(context);
 
-    // Pantalla inicial con los dos botones
     if (_selectedSection == 0) {
       return Scaffold(
         backgroundColor: Colors.white,
@@ -27,7 +29,6 @@ class _HealthScreenState extends State<HealthScreen> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Puedes mejorar los botones aquí también para un look más minimalista si quieres
                 ElevatedButton(
                   onPressed: () async {
                     final hasProfile = await healthVM.hasHealthProfile();
@@ -61,19 +62,13 @@ class _HealthScreenState extends State<HealthScreen> {
                 const SizedBox(height: 32),
                 ElevatedButton(
                   onPressed: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: const Text(
-                          'Próximamente: Ejercicios',
-                          style: TextStyle(color: Colors.black87, fontWeight: FontWeight.w600),
-                        ),
-                        backgroundColor: Colors.white,
-                        behavior: SnackBarBehavior.floating,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                          side: const BorderSide(color: Colors.black12),
-                        ),
-                        elevation: 4,
+                    // Obtén el género desde el perfil del usuario para pasarlo a la pantalla de ejercicios
+                    final userVM = Provider.of<UserViewModel>(context, listen: false);
+                    final gender = userVM.profile?.gender ?? "Masculino";
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ExerciseMainScreen(gender: gender),
                       ),
                     );
                   },
@@ -97,7 +92,6 @@ class _HealthScreenState extends State<HealthScreen> {
       );
     }
 
-    // Sección de alimentación (ya respondió encuesta)
     return WillPopScope(
       onWillPop: () async {
         setState(() {
