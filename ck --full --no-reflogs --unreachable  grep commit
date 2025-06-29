@@ -1,0 +1,29 @@
+[33mac83625[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: commit: tamos raros sin los ejercicios pero aver vamos a ver a donde llegamos
+[33m75829b8[m HEAD@{1}: commit: alfin alimentacion completa, falta un poco de estilo
+[33md075196[m HEAD@{2}: commit: agregada api de buscador de alimentos con caracteristicas
+[33m11dc332[m HEAD@{3}: commit: todo listo pantalla de alimentacion
+[33me56332b[m HEAD@{4}: commit: pantalla salud alimentos completamente lista falta parte visual
+[33m0e2875b[m HEAD@{5}: commit: encuesta de health listo
+[33mc5c2a96[m HEAD@{6}: commit: actualizacion
+[33m0d831b0[m HEAD@{7}: commit: actualizacion
+[33mb564f7a[m HEAD@{8}: commit: estructura base lista
+[33m9cebcca[m HEAD@{9}: commit: notes agregado a pantalla eficiencia
+[33m3277fce[m HEAD@{10}: commit: pantalla de horarios completa
+[33mcb0eb3d[m HEAD@{11}: commit: pantallas listas y hasta barra inferior
+[33m764d7fc[m HEAD@{12}: commit: archivos de barra inferior
+[33me9758c4[m HEAD@{13}: checkout: moving from main to main
+[33me9758c4[m HEAD@{14}: checkout: moving from main to main
+[33me9758c4[m HEAD@{15}: commit: Sincronizar todos los archivos - 06/26/2025 19:15:43
+[33m60cdad8[m HEAD@{16}: checkout: moving from main to main
+[33m60cdad8[m HEAD@{17}: pull origin main: Fast-forward
+[33ma4ee682[m HEAD@{18}: checkout: moving from main to main
+[33ma4ee682[m HEAD@{19}: checkout: moving from estructura-base to main
+[33m19992df[m HEAD@{20}: commit: Implementar barra de navegación inferior con 4 secciones
+[33mf9784a4[m HEAD@{21}: commit: FINALMENTE TODO LISTO Y PRESENTABLE HASTA ANTES DEL HOME
+[33m5a45d4c[m HEAD@{22}: commit: ruta completa hasta pantalla de verificacion de correo
+[33md5b5e90[m HEAD@{23}: commit: login/register finales
+[33me81ca76[m HEAD@{24}: commit: Subiendo estructura base correcta hasta auth
+[33ma4ee682[m HEAD@{25}: checkout: moving from main to estructura-base
+[33ma4ee682[m HEAD@{26}: commit: Primer commit - estructura inicial del proyecto
+[33m5d1bdaa[m HEAD@{27}: commit: MVP de salud ya echos, falta ordenar los archivos y tambien implementar el bot johan despierta crj
+[33m5393087[m HEAD@{28}: commit: Notas y tareas: edición, borrado y filtros mejorados
