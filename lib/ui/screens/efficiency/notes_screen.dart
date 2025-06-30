@@ -1,7 +1,40 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../../viewmodel/notes_viewmodel.dart';
+import '../../../viewmodel/secure_notes_viewmodel.dart';
+import '../../../viewmodel/tasks_viewmodel.dart';
+import '../../widgets/notes/notes_tab.dart';
+import '../../widgets/notes/secure_notes_tab.dart';
+import '../../widgets/notes/tasks_tab.dart';
+import '../../widgets/notes/notes_floating_action_button.dart';
 
-class NotesScreen extends StatelessWidget {
+class NotesScreen extends StatefulWidget {
   const NotesScreen({super.key});
+
+  @override
+  State<NotesScreen> createState() => _NotesScreenState();
+}
+
+class _NotesScreenState extends State<NotesScreen> with TickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+    
+    // Load data for each tab
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<NotesViewModel>().loadNotes();
+      context.read<TasksViewModel>().loadTasks();
+    });
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,92 +53,51 @@ class NotesScreen extends StatelessWidget {
         elevation: 0,
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black87),
-      ),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Título con icono
-              Row(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.green[50],
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Icon(
-                      Icons.note_alt,
-                      size: 28,
-                      color: Colors.green[700],
-                    ),
-                  ),
-                  const SizedBox(width: 16),
-                  const Expanded(
-                    child: Text(
-                      'Mis Apuntes',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.black87,
-                        letterSpacing: -0.5,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              
-              const SizedBox(height: 8),
-              
-              Text(
-                'Guarda y organiza tus notas importantes',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey[600],
-                ),
-              ),
-              
-              const SizedBox(height: 40),
-              
-              // Contenido temporal
-              Expanded(
-                child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.edit_note,
-                        size: 64,
-                        color: Colors.grey[400],
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        'Próximamente...',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.grey[600],
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Text(
-                        'Aquí podrás crear y gestionar tus apuntes',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey[500],
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
+        bottom: TabBar(
+          controller: _tabController,
+          labelColor: Colors.black87,
+          unselectedLabelColor: Colors.grey[600],
+          indicatorColor: Colors.black87,
+          indicatorWeight: 2,
+          labelStyle: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 14,
           ),
+          unselectedLabelStyle: const TextStyle(
+            fontWeight: FontWeight.w400,
+            fontSize: 14,
+          ),
+          tabs: const [
+            Tab(
+              icon: Icon(Icons.note_alt_outlined, size: 20),
+              text: 'Notas',
+            ),
+            Tab(
+              icon: Icon(Icons.lock_outline, size: 20),
+              text: 'Bóveda',
+            ),
+            Tab(
+              icon: Icon(Icons.task_alt_outlined, size: 20),
+              text: 'Tareas',
+            ),
+          ],
         ),
+      ),
+      body: TabBarView(
+        controller: _tabController,
+        children: const [
+          NotesTab(),
+          SecureNotesTab(),
+          TasksTab(),
+        ],
+      ),
+      floatingActionButton: AnimatedBuilder(
+        animation: _tabController,
+        builder: (context, child) {
+          return NotesFloatingActionButton(
+            currentTabIndex: _tabController.index,
+          );
+        },
       ),
     );
   }

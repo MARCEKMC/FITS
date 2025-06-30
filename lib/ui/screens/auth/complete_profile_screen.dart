@@ -165,7 +165,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     await Provider.of<UserViewModel>(context, listen: false).setProfile(profile);
     if (mounted) {
       setState(() => _loading = false);
-      Navigator.pushReplacementNamed(context, '/main');
+      Navigator.pushReplacementNamed(context, '/home');
     } else {
       setState(() => _loading = false);
     }

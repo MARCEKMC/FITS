@@ -40,6 +40,12 @@ dependencies:
   # Indicador de porcentaje circular
   percent_indicator: ^4.2.3
 
+  # Almacenamiento local para notas y tareas
+  shared_preferences: ^2.2.2
+
+  # Criptografía para notas seguras
+  crypto: ^3.0.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

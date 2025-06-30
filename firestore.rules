@@ -1,48 +1,97 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Función helper para verificar autenticación
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Función helper para verificar ownership
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Función helper para verificar ownership en datos del documento
+    function isDocumentOwner() {
+      return isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+    
+    // Función helper para verificar ownership en datos de la solicitud
+    function isRequestOwner() {
+      return isAuthenticated() && request.resource.data.userId == request.auth.uid;
+    }
+
     // Usuarios
     match /users/{userId} {
-      // Permite que cualquier usuario autenticado lea cualquier documento de usuario (necesario para consultas de username)
-      allow read: if request.auth != null;
-      // Solo el usuario puede escribir en su propio documento
-      allow write: if request.auth != null && request.auth.uid == userId;
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
     }
 
     // Perfiles de salud
     match /health_profiles/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read, write: if isOwner(userId);
     }
 
     // Registros de comidas
     match /food_entries/{documentId} {
-      // Leer SOLO si el documento pertenece al usuario
-      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
-      
-      // Crear SOLO si el usuario autenticado es el dueño del registro
-      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
-      
-      // Actualizar SOLO si el usuario autenticado es el dueño del registro
-      allow update: if request.auth != null && resource.data.userId == request.auth.uid;
-      
-      // Eliminar SOLO si el usuario autenticado es el dueño del registro
-      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow read: if isDocumentOwner();
+      allow create: if isRequestOwner();
+      allow update: if isDocumentOwner();
+      allow delete: if isDocumentOwner();
     }
 
     // Registros de agua
     match /water_entries/{documentId} {
-      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
-      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
-      allow update: if request.auth != null && resource.data.userId == request.auth.uid;
-      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow read: if isDocumentOwner();
+      allow create: if isRequestOwner();
+      allow update: if isDocumentOwner();
+      allow delete: if isDocumentOwner();
     }
 
-    // Actividades del horario
+    // Actividades del horario/eficiencia
     match /schedule_activities/{documentId} {
-      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
-      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
-      allow update: if request.auth != null && resource.data.userId == request.auth.uid;
-      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow read: if isDocumentOwner();
+      allow create: if isRequestOwner();
+      allow update: if isDocumentOwner();
+      allow delete: if isDocumentOwner();
+    }
+
+    // Registros de ejercicios (si los necesitas en el futuro)
+    match /exercise_logs/{documentId} {
+      allow read: if isDocumentOwner();
+      allow create: if isRequestOwner();
+      allow update: if isDocumentOwner();
+      allow delete: if isDocumentOwner();
+    }
+
+    // Rutinas de ejercicios personalizadas (si las necesitas)
+    match /custom_routines/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Notas del usuario
+    match /notes/{documentId} {
+      allow read, write: if true; // Temporalmente permitir todas las operaciones para debugging
+    }
+
+    // Notas seguras del usuario
+    match /secure_notes/{documentId} {
+      allow read, write: if true; // Temporalmente permitir todas las operaciones para debugging
+    }
+
+    // Tareas del usuario
+    match /tasks/{documentId} {
+      allow read, write: if true; // Temporalmente permitir todas las operaciones para debugging
+    }
+
+    // Configuración de PIN para notas seguras
+    match /user_settings/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Denegar todo lo demás por defecto
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }
