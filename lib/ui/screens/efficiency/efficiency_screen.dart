@@ -32,15 +32,18 @@ class EfficiencyScreen extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              padding: const EdgeInsets.all(12),
+              width: 52,
+              height: 52,
               decoration: BoxDecoration(
                 color: Colors.grey[100],
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(
-                icon,
-                size: 28,
-                color: Colors.black87,
+              child: Center(
+                child: Icon(
+                  icon,
+                  size: 28,
+                  color: Colors.black87,
+                ),
               ),
             ),
             const SizedBox(width: 20),
@@ -115,6 +118,18 @@ class EfficiencyScreen extends StatelessWidget {
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                   color: Colors.grey[600],
+                ),
+              ),
+              
+              const SizedBox(height: 20),
+              
+              // Imagen de eficiencia
+              SizedBox(
+                width: double.infinity,
+                height: 205,
+                child: Image.asset(
+                  'lib/core/utils/images/imageneficiencia.png',
+                  fit: BoxFit.contain,
                 ),
               ),
               

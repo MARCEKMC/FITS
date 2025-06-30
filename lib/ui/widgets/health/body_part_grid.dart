@@ -10,39 +10,127 @@ class BodyPartGrid extends StatelessWidget {
     required this.onTap,
   });
 
-  Widget _buildButton({
-    required String text,
+  Widget _buildMuscleGroupCard({
+    required String title,
+    required IconData icon,
     required VoidCallback onPressed,
     bool isFullWidth = false,
+    Color iconColor = Colors.black87,
   }) {
-    return SizedBox(
+    return Container(
       width: isFullWidth ? double.infinity : null,
-      height: isFullWidth ? 80 : 120, // Todo el cuerpo: 80px, otros: 120px (cuadrados)
-      child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          backgroundColor: Colors.white,
-          foregroundColor: Colors.black87,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-            side: BorderSide(
-              color: Colors.grey[300]!,
-              width: 1.5,
-            ),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+      height: isFullWidth ? 85 : 130,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: Colors.grey[300]!,
+          width: 1.5,
         ),
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 0.3,
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onPressed,
+          borderRadius: BorderRadius.circular(20),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: isFullWidth 
+                ? Row(
+                    children: [
+                      Container(
+                        width: 45,
+                        height: 45,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Icon(
+                          icon,
+                          size: 24,
+                          color: iconColor,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Text(
+                          title,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.black87,
+                            letterSpacing: 0.2,
+                          ),
+                        ),
+                      ),
+                      Icon(
+                        Icons.chevron_right,
+                        size: 20,
+                        color: Colors.grey[400],
+                      ),
+                    ],
+                  )
+                : Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100],
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        child: Icon(
+                          icon,
+                          size: 26,
+                          color: iconColor,
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black87,
+                          letterSpacing: 0.2,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
           ),
         ),
       ),
     );
+  }
+
+  IconData _getIconForMuscleGroup(String groupName) {
+    switch (groupName.toLowerCase()) {
+      case 'pecho':
+        return Icons.fitness_center;
+      case 'espalda':
+        return Icons.sports_gymnastics;
+      case 'brazos':
+        return Icons.sports_martial_arts;
+      case 'abdomen':
+        return Icons.sentiment_very_satisfied;
+      case 'piernas':
+        return Icons.directions_run;
+      case 'glúteos':
+        return Icons.sports_tennis;
+      case 'todo el cuerpo':
+        return Icons.accessibility_new;
+      default:
+        return Icons.fitness_center;
+    }
   }
 
   @override
@@ -64,131 +152,239 @@ class BodyPartGrid extends StatelessWidget {
             {'name': 'Todo el cuerpo', 'id': -1},
           ];
 
-    // Encontrar cada parte por nombre para el layout específico
-    final todoCuerpo = parts.firstWhere((p) => p['name'] == 'Todo el cuerpo');
-    final pecho = parts.firstWhere((p) => p['name'] == 'Pecho', orElse: () => {'name': 'Glúteos', 'id': 8});
-    final espalda = parts.firstWhere((p) => p['name'] == 'Espalda', orElse: () => {'name': 'Piernas', 'id': 10});
-    final brazos = parts.firstWhere((p) => p['name'] == 'Brazos');
-    final abdomen = parts.firstWhere((p) => p['name'] == 'Abdomen');
-    final piernas = parts.firstWhere((p) => p['name'] == 'Piernas');
-
-    return Container(
-      color: Colors.white,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Título elegante
-              const Text(
-                'Selecciona el grupo muscular',
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black87,
-                  letterSpacing: -0.5,
-                ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const SizedBox(height: 20),
+            
+            // Texto descriptivo principal
+            const Text(
+              'Selecciona qué trabajar hoy',
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: Colors.black87,
+                letterSpacing: -0.3,
               ),
-              
-              const SizedBox(height: 8),
-              
-              Text(
-                'Elige la zona que quieres trabajar hoy',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w400,
-                  color: Colors.grey[600],
-                ),
+            ),
+            
+            const SizedBox(height: 30),
+            
+            // Botón "Todo el cuerpo" destacado arriba
+            _buildMuscleGroupCard(
+              title: 'Todo el cuerpo',
+              icon: Icons.accessibility_new,
+              onPressed: () {
+                final todoCuerpo = parts.firstWhere((p) => p['name'] == 'Todo el cuerpo');
+                onTap(todoCuerpo['name'], todoCuerpo['id']);
+              },
+              isFullWidth: true,
+              iconColor: Colors.purple[700]!,
+            ),
+            
+            const SizedBox(height: 24),
+            
+            // Texto descriptivo
+            Text(
+              'O selecciona un grupo específico:',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.grey[600],
+                letterSpacing: 0.2,
               ),
-              
-              const SizedBox(height: 50), // Aumenté de 40 a 50
-              
-              // 1. Todo el cuerpo (arriba, ancho completo)
-              _buildButton(
-                text: todoCuerpo['name'],
-                onPressed: () => onTap(todoCuerpo['name'], todoCuerpo['id']),
-                isFullWidth: true,
-              ),
-              
-              const SizedBox(height: 30), // Aumenté de 20 a 30
-              
-              // 2. Pecho y Espalda (fila de 2)
+            ),
+            
+            const SizedBox(height: 20),
+            
+            // Grid de grupos musculares específicos
+            if (gender == 'Masculino') ...[
+              // Primera fila: Pecho y Espalda
               Row(
                 children: [
                   Expanded(
-                    child: _buildButton(
-                      text: pecho['name'],
-                      onPressed: () => onTap(pecho['name'], pecho['id']),
+                    child: _buildMuscleGroupCard(
+                      title: 'Pecho',
+                      icon: Icons.fitness_center,
+                      onPressed: () {
+                        final pecho = parts.firstWhere((p) => p['name'] == 'Pecho');
+                        onTap(pecho['name'], pecho['id']);
+                      },
+                      iconColor: Colors.red[600]!,
                     ),
                   ),
-                  const SizedBox(width: 20), // Aumenté de 16 a 20
+                  const SizedBox(width: 16),
                   Expanded(
-                    child: _buildButton(
-                      text: espalda['name'],
-                      onPressed: () => onTap(espalda['name'], espalda['id']),
+                    child: _buildMuscleGroupCard(
+                      title: 'Espalda',
+                      icon: Icons.sports_gymnastics,
+                      onPressed: () {
+                        final espalda = parts.firstWhere((p) => p['name'] == 'Espalda');
+                        onTap(espalda['name'], espalda['id']);
+                      },
+                      iconColor: Colors.blue[600]!,
                     ),
                   ),
                 ],
               ),
               
-              const SizedBox(height: 30), // Aumenté de 20 a 30
+              const SizedBox(height: 16),
               
-              // 3. Brazos y Abdomen (fila de 2)
+              // Segunda fila: Brazos y Abdomen
               Row(
                 children: [
                   Expanded(
-                    child: _buildButton(
-                      text: brazos['name'],
-                      onPressed: () => onTap(brazos['name'], brazos['id']),
+                    child: _buildMuscleGroupCard(
+                      title: 'Brazos',
+                      icon: Icons.sports_martial_arts,
+                      onPressed: () {
+                        final brazos = parts.firstWhere((p) => p['name'] == 'Brazos');
+                        onTap(brazos['name'], brazos['id']);
+                      },
+                      iconColor: Colors.orange[600]!,
                     ),
                   ),
-                  const SizedBox(width: 20), // Aumenté de 16 a 20
+                  const SizedBox(width: 16),
                   Expanded(
-                    child: _buildButton(
-                      text: abdomen['name'],
-                      onPressed: () => onTap(abdomen['name'], abdomen['id']),
+                    child: _buildMuscleGroupCard(
+                      title: 'Abdomen',
+                      icon: Icons.sentiment_very_satisfied,
+                      onPressed: () {
+                        final abdomen = parts.firstWhere((p) => p['name'] == 'Abdomen');
+                        onTap(abdomen['name'], abdomen['id']);
+                      },
+                      iconColor: Colors.green[600]!,
                     ),
                   ),
                 ],
               ),
               
-              const SizedBox(height: 30),
+              const SizedBox(height: 16),
               
-              // 4. Imagen y Piernas (fila final)
+              // Tercera fila: Piernas e Imagen
               Row(
                 children: [
-                  // Imagen a la izquierda (libre, sin contenedor)
+                  Expanded(
+                    child: _buildMuscleGroupCard(
+                      title: 'Piernas',
+                      icon: Icons.directions_run,
+                      onPressed: () {
+                        final piernas = parts.firstWhere((p) => p['name'] == 'Piernas');
+                        onTap(piernas['name'], piernas['id']);
+                      },
+                      iconColor: Colors.indigo[600]!,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
                   Expanded(
                     child: SizedBox(
-                      height: 120, // Misma altura que los botones cuadrados
+                      height: 130,
                       child: Image.asset(
                         'lib/core/utils/images/imagenejercicios.png',
-                        fit: BoxFit.contain, // Imagen completa sin cortarse
+                        fit: BoxFit.contain,
                         errorBuilder: (context, error, stackTrace) {
-                          return Icon(
-                            Icons.fitness_center,
-                            size: 60,
-                            color: Colors.grey[400],
+                          return Center(
+                            child: Icon(
+                              Icons.fitness_center,
+                              size: 50,
+                              color: Colors.grey[400],
+                            ),
                           );
                         },
                       ),
                     ),
                   ),
-                  const SizedBox(width: 20),
-                  // Botón Piernas a la derecha
+                ],
+              ),
+            ] else ...[
+              // Layout para género femenino
+              // Primera fila: Glúteos y Piernas
+              Row(
+                children: [
                   Expanded(
-                    child: _buildButton(
-                      text: piernas['name'],
-                      onPressed: () => onTap(piernas['name'], piernas['id']),
+                    child: _buildMuscleGroupCard(
+                      title: 'Glúteos',
+                      icon: Icons.sports_tennis,
+                      onPressed: () {
+                        final gluteos = parts.firstWhere((p) => p['name'] == 'Glúteos');
+                        onTap(gluteos['name'], gluteos['id']);
+                      },
+                      iconColor: Colors.pink[600]!,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _buildMuscleGroupCard(
+                      title: 'Piernas',
+                      icon: Icons.directions_run,
+                      onPressed: () {
+                        final piernas = parts.firstWhere((p) => p['name'] == 'Piernas');
+                        onTap(piernas['name'], piernas['id']);
+                      },
+                      iconColor: Colors.indigo[600]!,
                     ),
                   ),
                 ],
               ),
               
-              const SizedBox(height: 60), // Aumenté de 40 a 60 para más espacio final
+              const SizedBox(height: 16),
+              
+              // Segunda fila: Abdomen y Brazos
+              Row(
+                children: [
+                  Expanded(
+                    child: _buildMuscleGroupCard(
+                      title: 'Abdomen',
+                      icon: Icons.sentiment_very_satisfied,
+                      onPressed: () {
+                        final abdomen = parts.firstWhere((p) => p['name'] == 'Abdomen');
+                        onTap(abdomen['name'], abdomen['id']);
+                      },
+                      iconColor: Colors.green[600]!,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: _buildMuscleGroupCard(
+                      title: 'Brazos',
+                      icon: Icons.sports_martial_arts,
+                      onPressed: () {
+                        final brazos = parts.firstWhere((p) => p['name'] == 'Brazos');
+                        onTap(brazos['name'], brazos['id']);
+                      },
+                      iconColor: Colors.orange[600]!,
+                    ),
+                  ),
+                ],
+              ),
+              
+              const SizedBox(height: 16),
+              
+              // Imagen centrada para género femenino
+              SizedBox(
+                width: double.infinity,
+                height: 130,
+                child: Image.asset(
+                  'lib/core/utils/images/imagenejercicios.png',
+                  fit: BoxFit.contain,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Center(
+                      child: Icon(
+                        Icons.fitness_center,
+                        size: 50,
+                        color: Colors.grey[400],
+                      ),
+                    );
+                  },
+                ),
+              ),
             ],
-          ),
+            
+            const SizedBox(height: 30),
+          ],
         ),
       ),
     );
