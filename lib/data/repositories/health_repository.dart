@@ -15,4 +15,10 @@ class HealthRepository {
   Future<void> saveHealthProfile(HealthProfile profile) async {
     await _db.collection('health_profiles').doc(profile.uid).set(profile.toMap());
   }
+
+  Future<void> updateExerciseSurveyCompleted(String uid, bool completed) async {
+    await _db.collection('health_profiles').doc(uid).update({
+      'hasCompletedExerciseSurvey': completed,
+    });
+  }
 }

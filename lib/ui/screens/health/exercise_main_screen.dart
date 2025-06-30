@@ -21,8 +21,26 @@ class _ExerciseMainScreenState extends State<ExerciseMainScreen> {
   bool gridVisible = false;
   bool showIntensitySelector = false;
   String? selectedGroupName;
+  bool isLoading = true;
 
-  // Ejercicios por grupo (puedes mover esto a un helper/file aparte si prefieres)
+  @override
+  void initState() {
+    super.initState();
+    _checkSurveyStatus();
+  }
+
+  Future<void> _checkSurveyStatus() async {
+    final healthVM = Provider.of<HealthViewModel>(context, listen: false);
+    await healthVM.loadProfile();
+    
+    setState(() {
+      surveyDone = healthVM.hasCompletedExerciseSurvey;
+      gridVisible = surveyDone;
+      isLoading = false;
+    });
+  }
+
+  // Ejercicios por grupo (solo ejercicios que existen en assets)
   List<String> getCarpetasPorGrupo(String group) {
     switch (group.toLowerCase()) {
       case 'pecho':
@@ -46,7 +64,6 @@ class _ExerciseMainScreenState extends State<ExerciseMainScreen> {
           'Standing_One-Arm_Cable_Curl', 'Seated_Triceps_Press'
         ];
       case 'abdomen':
-      case 'abdomen':
         return [
           'Plank', 'Sit-Up', 'Russian_Twist', 'Scissor_Kick', 'Mountain_Climbers', 'Side_Jackknife',
           'Rope_Crunch', 'Standing_Rope_Crunch', 'Otis-Up', 'Reverse_Crunch', 'Seated_Flat_Bench_Leg_Pull-In',
@@ -60,11 +77,10 @@ class _ExerciseMainScreenState extends State<ExerciseMainScreen> {
         ];
       case 'todo el cuerpo':
         return [
-          'Burpee', 'Mountain_Climbers', 'Freehand_Jump_Squat', 'Pushups',
+          'Mountain_Climbers', 'Freehand_Jump_Squat', 'Pushups',
           'Pullups', 'Plank', 'Medicine_Ball_Chest_Pass', 'Plyo_Push-up',
           'Muscle_Up', 'Sled_Push', 'Dumbbell_Lunges', 'Spider_Crawl'
         ];
-      // Puedes agregar más casos para otros grupos si lo deseas
       default:
         return [];
     }
@@ -79,23 +95,37 @@ class _ExerciseMainScreenState extends State<ExerciseMainScreen> {
 
     Widget content;
 
-    if (!surveyDone) {
-      content = ExerciseSurvey(
-        gender: widget.gender,
-        objetivoAlimentacion: objetivoAlimentacion,
-        onFinish: ({
-          required String objetivoAlimentacion,
-          required String objetivoEntrenamiento,
-          required List<int> selectedMuscleIds,
-          required bool experiencia,
-          required String lugar,
-        }) {
-          setState(() {
-            surveyDone = true;
-            gridVisible = true;
-            selectedGroupName = null;
-          });
-        },
+    if (isLoading) {
+      content = Container(
+        color: Colors.white,
+        child: const Center(child: CircularProgressIndicator()),
+      );
+    } else if (!surveyDone) {
+      content = Container(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: ExerciseSurvey(
+            gender: widget.gender,
+            objetivoAlimentacion: objetivoAlimentacion,
+            onFinish: ({
+              required String objetivoAlimentacion,
+              required String objetivoEntrenamiento,
+              required List<int> selectedMuscleIds,
+              required bool experiencia,
+              required String lugar,
+            }) async {
+              // Guardar que la encuesta fue completada
+              await healthVM.markExerciseSurveyCompleted();
+              
+              setState(() {
+                surveyDone = true;
+                gridVisible = true;
+                selectedGroupName = null;
+              });
+            },
+          ),
+        ),
       );
     } else if (gridVisible) {
       content = BodyPartGrid(
@@ -109,30 +139,33 @@ class _ExerciseMainScreenState extends State<ExerciseMainScreen> {
         },
       );
     } else if (showIntensitySelector) {
-      content = IntensitySelector(
-        onSelect: (intensity) async {
-          setState(() {
-            showIntensitySelector = false;
-          });
-
-          // --- CAMBIO PRINCIPAL: Navegar a la pantalla tipo "player" ---
-          if (selectedGroupName != null && selectedGroupName!.isNotEmpty) {
-            final ejercicios = getCarpetasPorGrupo(selectedGroupName!);
-            if (ejercicios.isNotEmpty) {
-              // Lanza la pantalla "player"
-              await Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => ExercisePlayerScreen(
-                    exerciseFolders: ejercicios,
-                    groupName: selectedGroupName!,
-                  ),
-                ),
-              );
-              // Al volver, puedes resetear si deseas
+      content = Container(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: IntensitySelector(
+            onSelect: (intensity) async {
               setState(() {
-                surveyDone = false;
-                gridVisible = false;
+                showIntensitySelector = false;
+              });
+
+              // --- CAMBIO PRINCIPAL: Navegar a la pantalla tipo "player" ---
+              if (selectedGroupName != null && selectedGroupName!.isNotEmpty) {
+                final ejercicios = getCarpetasPorGrupo(selectedGroupName!);
+                if (ejercicios.isNotEmpty) {
+                  // Lanza la pantalla "player"
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => ExercisePlayerScreen(
+                        exerciseFolders: ejercicios,
+                        groupName: selectedGroupName!,
+                      ),
+                    ),
+              );
+              // Al volver, regresar a la selección de grupo muscular
+              setState(() {
+                gridVisible = true;
                 showIntensitySelector = false;
                 selectedGroupName = null;
               });
@@ -140,19 +173,42 @@ class _ExerciseMainScreenState extends State<ExerciseMainScreen> {
             }
           }
         },
+          ),
+        ),
       );
     } else if (exerciseVM.loading) {
-      content = const Center(child: CircularProgressIndicator());
+      content = Container(
+        color: Colors.white,
+        child: const Center(child: CircularProgressIndicator()),
+      );
     } else if (exerciseVM.routine.isNotEmpty) {
       // No deberías llegar aquí si usas el nuevo flujo tipo "player"
-      content = const Center(child: Text("¡Rutina generada!"));
+      content = Container(
+        color: Colors.white,
+        child: const Center(child: Text("¡Rutina generada!")),
+      );
     } else {
-      content = const Center(child: Text("No hay rutina disponible."));
+      content = Container(
+        color: Colors.white,
+        child: const Center(child: Text("No hay rutina disponible.")),
+      );
     }
 
     return Scaffold(
+      backgroundColor: Colors.white, // Fondo blanco completo
       appBar: AppBar(
-        title: const Text('Ejercicios'),
+        title: const Text(
+          'Ejercicios',
+          style: TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: 20,
+            color: Colors.black87,
+          ),
+        ),
+        backgroundColor: Colors.white,
+        elevation: 0,
+        centerTitle: true,
+        iconTheme: const IconThemeData(color: Colors.black87),
         leading: (surveyDone &&
                 (showIntensitySelector ||
                     (gridVisible && selectedGroupName != null)))
@@ -174,10 +230,7 @@ class _ExerciseMainScreenState extends State<ExerciseMainScreen> {
               )
             : null,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: content,
-      ),
+      body: content, // Removemos el padding para que sea completamente blanco
     );
   }
 }

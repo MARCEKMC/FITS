@@ -8,6 +8,7 @@ class HealthProfile {
   final int edad;
   final String genero;
   final double kcalObjetivo;
+  final bool hasCompletedExerciseSurvey; // Nuevo campo para la encuesta de ejercicios
 
   HealthProfile({
     required this.uid,
@@ -19,6 +20,7 @@ class HealthProfile {
     required this.edad,
     required this.genero,
     required this.kcalObjetivo,
+    this.hasCompletedExerciseSurvey = false, // Por defecto false
   });
 
   Map<String, dynamic> toMap() => {
@@ -31,6 +33,7 @@ class HealthProfile {
         'edad': edad,
         'genero': genero,
         'kcalObjetivo': kcalObjetivo,
+        'hasCompletedExerciseSurvey': hasCompletedExerciseSurvey,
       };
 
   static HealthProfile fromMap(Map<String, dynamic> map) => HealthProfile(
@@ -43,5 +46,6 @@ class HealthProfile {
         edad: map['edad'],
         genero: map['genero'],
         kcalObjetivo: (map['kcalObjetivo'] as num).toDouble(),
+        hasCompletedExerciseSurvey: map['hasCompletedExerciseSurvey'] ?? false,
       );
 }
