@@ -35,6 +35,9 @@ dependencies:
   # Generador de identificadores únicos (para modelos con id)
   uuid: ^4.3.3
 
+  # Indicador de porcentaje circular
+  percent_indicator: ^4.2.3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

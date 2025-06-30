@@ -39,52 +39,121 @@ class _FoodSearchDialogState extends State<FoodSearchDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      title: const Text('Buscar alimento'),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          TextField(
-            controller: _controller,
-            autofocus: true,
-            decoration: const InputDecoration(
-              labelText: 'Nombre del alimento',
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.9,
+        height: MediaQuery.of(context).size.height * 0.7,
+        padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.1),
+              blurRadius: 20,
+              offset: const Offset(0, 8),
             ),
-            onSubmitted: _search,
-          ),
-          const SizedBox(height: 10),
-          if (_loading) const CircularProgressIndicator(),
-          if (_error != null) Text(_error!, style: const TextStyle(color: Colors.red)),
-          if (!_loading && _results.isNotEmpty)
-            SizedBox(
-              height: 300,
-              child: ListView.builder(
-                itemCount: _results.length,
-                itemBuilder: (_, i) {
-                  final food = _results[i];
-                  return ListTile(
-                    title: Text(food.name),
-                    subtitle: Text(
-                        "Kcal: ${food.kcal?.toStringAsFixed(0) ?? '-'}, "
-                        "C: ${food.carbs?.toStringAsFixed(1) ?? '-'}g, "
-                        "P: ${food.protein?.toStringAsFixed(1) ?? '-'}g, "
-                        "G: ${food.fat?.toStringAsFixed(1) ?? '-'}g"),
-                    onTap: () {
-                      widget.onFoodSelected?.call(food);
-                      Navigator.of(context).pop();
-                    },
-                  );
-                },
-              ),
-            )
-        ],
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancelar'),
+          ],
         ),
-      ],
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.green.shade50,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Icon(
+                    Icons.search_rounded,
+                    color: Colors.green.shade600,
+                    size: 24,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                const Expanded(
+                  child: Text(
+                    'Buscar alimento',
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.black87,
+                      fontFamily: 'SF Pro Display',
+                    ),
+                  ),
+                ),
+                IconButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  icon: Icon(Icons.close_rounded, color: Colors.grey.shade600),
+                  style: IconButton.styleFrom(
+                    backgroundColor: Colors.grey.shade100,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            // Search Field
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.grey.shade50,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.grey.shade200),
+              ),
+              child: TextField(
+                controller: _controller,
+                autofocus: true,
+                style: const TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                ),
+                decoration: InputDecoration(
+                  hintText: 'Ej: pollo, arroz, manzana...',
+                  hintStyle: TextStyle(
+                    color: Colors.grey.shade500,
+                    fontWeight: FontWeight.w400,
+                  ),
+                  prefixIcon: Icon(
+                    Icons.restaurant_menu_rounded,
+                    color: Colors.grey.shade500,
+                  ),
+                  suffixIcon: _controller.text.isNotEmpty
+                      ? IconButton(
+                          onPressed: () {
+                            _controller.clear();
+                            setState(() {
+                              _results = [];
+                            });
+                          },
+                          icon: Icon(Icons.clear_rounded, color: Colors.grey.shade500),
+                        )
+                      : null,
+                  border: InputBorder.none,
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                ),
+                onChanged: (value) {
+                  setState(() {});
+                  if (value.length > 2) {
+                    _search(value);
+                  }
+                },
+                onSubmitted: _search,
+              ),
+            ),
+            const SizedBox(height: 20),
+            // Results
+            Expanded(
+              child: _buildResults(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

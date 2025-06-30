@@ -1,12 +1,16 @@
+import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
+  final GlobalKey? exportKey; // Permite capturar como imagen
+
   const BottomNavBar({
     super.key,
     required this.currentIndex,
     required this.onTap,
+    this.exportKey,
   });
 
   static const _icons = [
@@ -25,31 +29,40 @@ class BottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(22),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.06),
-              blurRadius: 24,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: List.generate(_icons.length, (i) {
-            final selected = i == currentIndex;
-            return _NavBarItem(
-              icon: _icons[i],
-              label: _labels[i],
-              selected: selected,
-              onTap: () => onTap(i),
-            );
-          }),
+      child: RepaintBoundary(
+        key: exportKey,
+        child: Container(
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16), // Más margen para resaltar
+          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12), // Más padding interno
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12), // Bordes más redondeados
+            border: Border.all(color: Colors.black26, width: 1.5), // Borde más visible
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.15), // Sombra más intensa
+                blurRadius: 20, // Mayor difuminado
+                offset: const Offset(0, 6), // Más separación
+              ),
+              BoxShadow(
+                color: Colors.black.withOpacity(0.08), // Sombra adicional más sutil
+                blurRadius: 8,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: List.generate(_icons.length, (i) {
+              final selected = i == currentIndex;
+              return _NavBarItem(
+                icon: _icons[i],
+                label: _labels[i],
+                selected: selected,
+                onTap: () => onTap(i),
+              );
+            }),
+          ),
         ),
       ),
     );
@@ -70,30 +83,30 @@ class _NavBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = selected ? Colors.black : Colors.grey[400];
+    final color = selected ? Colors.black87 : Colors.grey[500]; // Colores más contrastantes
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTap: onTap,
       child: AnimatedContainer(
-        duration: const Duration(milliseconds: 210),
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        duration: const Duration(milliseconds: 250), // Animación más suave
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6), // Más padding
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             AnimatedContainer(
-              duration: const Duration(milliseconds: 210),
-              width: selected ? 28 : 24,
-              height: selected ? 28 : 24,
-              child: Icon(icon, color: color, size: selected ? 28 : 24),
+              duration: const Duration(milliseconds: 250),
+              width: selected ? 30 : 26, // Íconos más grandes
+              height: selected ? 30 : 26,
+              child: Icon(icon, color: color, size: selected ? 30 : 26),
             ),
             AnimatedContainer(
-              duration: const Duration(milliseconds: 210),
-              margin: const EdgeInsets.only(top: 4),
-              height: 3,
-              width: selected ? 20 : 0,
+              duration: const Duration(milliseconds: 250),
+              margin: const EdgeInsets.only(top: 6), // Más separación
+              height: selected ? 4 : 3, // Indicador más grueso cuando está seleccionado
+              width: selected ? 24 : 0, // Más ancho
               decoration: BoxDecoration(
-                color: selected ? Colors.black : Colors.transparent,
-                borderRadius: BorderRadius.circular(3),
+                color: selected ? Colors.black87 : Colors.transparent,
+                borderRadius: BorderRadius.circular(3), // Bordes más redondeados
               ),
             ),
           ],

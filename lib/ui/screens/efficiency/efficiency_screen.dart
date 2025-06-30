@@ -8,12 +8,23 @@ class EfficiencyScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.transparent,
       body: Center(
-        child: Image.asset(
-          'assets/exercise/Pushups/0.jpg', // Usa la ruta correcta y extensión real
-          width: 260,
-          height: 260,
-          fit: BoxFit.contain,
-          errorBuilder: (_, __, ___) => const Icon(Icons.image_not_supported, size: 120, color: Colors.red),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Text(
+              'Pantalla de Eficiencia',
+              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                // Aquí puedes agregar la lógica para navegar a otra pantalla
+                Navigator.pushNamed(context, '/some_other_screen');
+              },
+              child: const Text('Ir a otra pantalla'),
+            ),
+          ],
+
         ),
       ),
     );

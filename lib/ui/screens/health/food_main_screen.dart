@@ -133,16 +133,6 @@ class _FoodMainScreenState extends State<FoodMainScreen> {
               );
             }),
             const SizedBox(height: 24),
-            // Aquí va la barra de macros
-            MacrosCircularBar(
-              carbs: totalCarbs,
-              protein: totalProtein,
-              fat: totalFat,
-              carbsGoal: carbsGoal,
-              proteinGoal: proteinGoal,
-              fatGoal: fatGoal,
-            ),
-            const SizedBox(height: 24),
             Selector<WaterViewModel, int>(
               selector: (_, vm) => vm.glasses,
               builder: (context, glasses, _) {
@@ -154,6 +144,16 @@ class _FoodMainScreenState extends State<FoodMainScreen> {
                   },
                 );
               },
+            ),
+            const SizedBox(height: 24),
+            // Aquí va la barra de macros después del agua
+            MacrosCircularBar(
+              carbs: totalCarbs,
+              protein: totalProtein,
+              fat: totalFat,
+              carbsGoal: carbsGoal,
+              proteinGoal: proteinGoal,
+              fatGoal: fatGoal,
             ),
           ],
         ),

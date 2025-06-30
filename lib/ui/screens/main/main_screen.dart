@@ -28,7 +28,7 @@ class _MainScreenState extends State<MainScreen> {
         duration: const Duration(milliseconds: 270),
         child: _pages[_currentIndex],
       ),
-      backgroundColor: Colors.grey[100],
+      backgroundColor: Colors.white, // <-- FONDO BLANCO
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentIndex,
         onTap: (i) => setState(() => _currentIndex = i),
