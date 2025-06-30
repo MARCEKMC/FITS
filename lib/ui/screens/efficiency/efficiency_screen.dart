@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'schedule_screen.dart';
+import 'notes_screen.dart';
+import 'reports_screen.dart';
 
 class EfficiencyScreen extends StatelessWidget {
   const EfficiencyScreen({super.key});
@@ -122,7 +125,10 @@ class EfficiencyScreen extends StatelessWidget {
                 title: 'Horario',
                 icon: Icons.schedule,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/schedule');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ScheduleScreen()),
+                  );
                 },
               ),
               
@@ -132,7 +138,10 @@ class EfficiencyScreen extends StatelessWidget {
                 title: 'Apuntes',
                 icon: Icons.note_alt,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/notes');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const NotesScreen()),
+                  );
                 },
               ),
               
@@ -142,7 +151,10 @@ class EfficiencyScreen extends StatelessWidget {
                 title: 'Reportes',
                 icon: Icons.analytics,
                 onPressed: () {
-                  Navigator.pushNamed(context, '/reports');
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const ReportsScreen()),
+                  );
                 },
               ),
               

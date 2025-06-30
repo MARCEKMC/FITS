@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Usuarios
+    match /users/{userId} {
+      // Permite que cualquier usuario autenticado lea cualquier documento de usuario (necesario para consultas de username)
+      allow read: if request.auth != null;
+      // Solo el usuario puede escribir en su propio documento
+      allow write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Perfiles de salud
+    match /health_profiles/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // Registros de comidas
+    match /food_entries/{documentId} {
+      // Leer SOLO si el documento pertenece al usuario
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      
+      // Crear SOLO si el usuario autenticado es el dueño del registro
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      
+      // Actualizar SOLO si el usuario autenticado es el dueño del registro
+      allow update: if request.auth != null && resource.data.userId == request.auth.uid;
+      
+      // Eliminar SOLO si el usuario autenticado es el dueño del registro
+      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    // Registros de agua
+    match /water_entries/{documentId} {
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow update: if request.auth != null && resource.data.userId == request.auth.uid;
+      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+
+    // Actividades del horario - ESTA ES LA SECCIÓN QUE FALTABA
+    match /schedule_activities/{documentId} {
+      // Leer SOLO si el documento pertenece al usuario autenticado
+      allow read: if request.auth != null && resource.data.userId == request.auth.uid;
+      
+      // Crear SOLO si el usuario autenticado es el dueño de la actividad
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      
+      // Actualizar SOLO si el usuario autenticado es el dueño de la actividad
+      allow update: if request.auth != null && resource.data.userId == request.auth.uid;
+      
+      // Eliminar SOLO si el usuario autenticado es el dueño de la actividad
+      allow delete: if request.auth != null && resource.data.userId == request.auth.uid;
+    }
+  }
+}

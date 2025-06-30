@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/navigation/app_router.dart';
@@ -31,6 +32,17 @@ class FitsApp extends StatelessWidget {
         onGenerateRoute: AppRouter.generateRoute,
         initialRoute: '/splash',
         debugShowCheckedModeBanner: false,
+        // Agregamos soporte para localizaciones
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('es', 'ES'), // Español
+          Locale('en', 'US'), // Inglés
+        ],
+        locale: const Locale('es', 'ES'),
       ),
     );
   }

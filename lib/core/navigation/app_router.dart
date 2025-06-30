@@ -4,6 +4,9 @@ import 'package:fits/ui/screens/auth/auth_screen.dart';
 import 'package:fits/ui/screens/auth/verification_loading_screen.dart';
 import 'package:fits/ui/screens/auth/complete_profile_screen.dart';
 import 'package:fits/ui/screens/main/main_screen.dart';
+import 'package:fits/ui/screens/efficiency/schedule_screen.dart';
+import 'package:fits/ui/screens/efficiency/notes_screen.dart';
+import 'package:fits/ui/screens/efficiency/reports_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -18,6 +21,12 @@ class AppRouter {
         return MaterialPageRoute(builder: (_) => const CompleteProfileScreen());
       case '/main': 
         return MaterialPageRoute(builder: (_) => const MainScreen());
+      case '/schedule':
+        return MaterialPageRoute(builder: (_) => const ScheduleScreen());
+      case '/notes':
+        return MaterialPageRoute(builder: (_) => const NotesScreen());
+      case '/reports':
+        return MaterialPageRoute(builder: (_) => const ReportsScreen());
       default:
         return MaterialPageRoute(
             builder: (_) => Scaffold(

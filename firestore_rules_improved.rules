@@ -48,6 +48,14 @@ service cloud.firestore {
       allow delete: if isDocumentOwner();
     }
 
+    // Actividades del horario/eficiencia
+    match /schedule_activities/{documentId} {
+      allow read: if isDocumentOwner();
+      allow create: if isRequestOwner();
+      allow update: if isDocumentOwner();
+      allow delete: if isDocumentOwner();
+    }
+
     // Registros de ejercicios (si los necesitas en el futuro)
     match /exercise_logs/{documentId} {
       allow read: if isDocumentOwner();
