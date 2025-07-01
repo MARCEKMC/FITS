@@ -71,17 +71,26 @@ service cloud.firestore {
 
     // Notas del usuario
     match /notes/{documentId} {
-      allow read, write: if true; // Temporalmente permitir todas las operaciones para debugging
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow create: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || request.resource.data.userId == null);
+      allow update: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
     }
 
     // Notas seguras del usuario
     match /secure_notes/{documentId} {
-      allow read, write: if true; // Temporalmente permitir todas las operaciones para debugging
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow create: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || request.resource.data.userId == null);
+      allow update: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
     }
 
     // Tareas del usuario
     match /tasks/{documentId} {
-      allow read, write: if true; // Temporalmente permitir todas las operaciones para debugging
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow create: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || request.resource.data.userId == null);
+      allow update: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
     }
 
     // Configuración de PIN para notas seguras

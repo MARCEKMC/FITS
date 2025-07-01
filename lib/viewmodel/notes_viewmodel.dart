@@ -105,4 +105,23 @@ class NotesViewModel extends ChangeNotifier {
       isPinned: false,
     );
   }
+
+  Future<void> addQuickNote(String noteText) async {
+    try {
+      final newNote = Note(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        title: noteText.length > 50 ? '${noteText.substring(0, 50)}...' : noteText,
+        content: noteText,
+        tags: [],
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+      
+      await _repository.saveNote(newNote);
+      await loadNotes(); // Reload to update the list
+    } catch (e) {
+      print('Error adding quick note: $e');
+      rethrow;
+    }
+  }
 }

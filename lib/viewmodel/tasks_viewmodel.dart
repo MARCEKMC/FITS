@@ -137,4 +137,25 @@ class TasksViewModel extends ChangeNotifier {
         return Icons.remove;
     }
   }
+
+  Future<void> addQuickTask(String taskText) async {
+    try {
+      final newTask = Task(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        title: taskText,
+        description: '',
+        isCompleted: false,
+        priority: 'medium',
+        dueDate: null,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+      
+      await _repository.saveTask(newTask);
+      await loadTasks(); // Reload to update the list
+    } catch (e) {
+      print('Error adding quick task: $e');
+      rethrow;
+    }
+  }
 }
