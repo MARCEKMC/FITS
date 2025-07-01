@@ -30,4 +30,17 @@ class UserViewModel extends ChangeNotifier {
 
   /// Retorna true SOLO si el perfil está realmente completo
   bool get isProfileComplete => _profile != null && _profile!.isReallyComplete;
+
+  /// Calcula la edad del usuario basada en su fecha de nacimiento
+  int get userAge {
+    if (_profile == null) return 0;
+    final now = DateTime.now();
+    final birthDate = _profile!.birthDate;
+    int age = now.year - birthDate.year;
+    if (now.month < birthDate.month ||
+        (now.month == birthDate.month && now.day < birthDate.day)) {
+      age--;
+    }
+    return age;
+  }
 }

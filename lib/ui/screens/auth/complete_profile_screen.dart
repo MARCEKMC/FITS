@@ -148,7 +148,9 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     final profile = UserProfile(
       uid: user.uid,
       username: _usernameController.text.trim().toLowerCase(),
-      realName: _realNameController.text.trim() + " " + _lastNameController.text.trim(),
+      firstName: _realNameController.text.trim(),
+      lastName: _lastNameController.text.trim(),
+      email: user.email ?? '',
       gender: _gender ?? '',
       birthDate: _birthDate,
       profileType: _profileType ?? '',
@@ -165,7 +167,7 @@ class _CompleteProfileScreenState extends State<CompleteProfileScreen> {
     await Provider.of<UserViewModel>(context, listen: false).setProfile(profile);
     if (mounted) {
       setState(() => _loading = false);
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacementNamed(context, '/main');
     } else {
       setState(() => _loading = false);
     }

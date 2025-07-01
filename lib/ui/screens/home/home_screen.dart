@@ -124,8 +124,8 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         const SizedBox(height: 8),
         Text(
-          userVM.profile?.realName != null && userVM.profile!.realName.isNotEmpty
-              ? '¡Hola, ${userVM.profile!.realName}!'
+          userVM.profile?.fullName != null && userVM.profile!.fullName.isNotEmpty
+              ? '¡Hola, ${userVM.profile!.firstName}!'
               : '¡Hola!',
           style: const TextStyle(
             fontSize: 32,

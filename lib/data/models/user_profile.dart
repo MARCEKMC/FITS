@@ -1,7 +1,9 @@
 class UserProfile {
   final String uid;
   final String username;
-  final String realName;
+  final String firstName;
+  final String lastName;
+  final String email;
   final String gender;
   final DateTime birthDate;
   final String profileType;
@@ -11,7 +13,9 @@ class UserProfile {
   UserProfile({
     required this.uid,
     required String username,
-    required this.realName,
+    required this.firstName,
+    required this.lastName,
+    required this.email,
     required this.gender,
     required this.birthDate,
     required this.profileType,
@@ -19,11 +23,16 @@ class UserProfile {
     required this.language,
   }) : username = username.trim().toLowerCase();
 
+  // Getter para nombre completo
+  String get fullName => '$firstName $lastName'.trim();
+
   Map<String, dynamic> toMap() {
     return {
       'uid': uid,
       'username': username,
-      'realName': realName,
+      'firstName': firstName,
+      'lastName': lastName,
+      'email': email,
       'gender': gender,
       'birthDate': birthDate.toIso8601String(),
       'profileType': profileType,
@@ -36,7 +45,9 @@ class UserProfile {
     return UserProfile(
       uid: map['uid'] ?? '',
       username: map['username'] ?? '',
-      realName: map['realName'] ?? '',
+      firstName: map['firstName'] ?? map['realName'] ?? '', // Compatibilidad hacia atrás
+      lastName: map['lastName'] ?? '',
+      email: map['email'] ?? '',
       gender: map['gender'] ?? '',
       birthDate: map['birthDate'] != null && map['birthDate'] != ''
           ? DateTime.tryParse(map['birthDate']) ?? DateTime.now()
@@ -49,7 +60,9 @@ class UserProfile {
 
   bool get isReallyComplete {
     return username.trim().isNotEmpty &&
-        realName.trim().isNotEmpty &&
+        firstName.trim().isNotEmpty &&
+        lastName.trim().isNotEmpty &&
+        email.trim().isNotEmpty &&
         gender.trim().isNotEmpty &&
         profileType.trim().isNotEmpty &&
         region.trim().isNotEmpty &&

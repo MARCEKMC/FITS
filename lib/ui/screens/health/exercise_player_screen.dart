@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ExercisePlayerScreen extends StatefulWidget {
   final List<String> exerciseFolders; // Ej: ['Push-Ups_With_Feet_Elevated', ...]
@@ -39,6 +41,41 @@ class _ExercisePlayerScreenState extends State<ExercisePlayerScreen> {
   void dispose() {
     timer?.cancel();
     super.dispose();
+  }
+
+  Future<void> _saveExerciseLog() async {
+    try {
+      final user = FirebaseAuth.instance.currentUser;
+      if (user == null) {
+        print('Usuario no autenticado');
+        return;
+      }
+
+      print('Guardando ejercicio para usuario: ${user.uid}');
+      
+      final exerciseData = {
+        'id': DateTime.now().millisecondsSinceEpoch.toString(),
+        'userId': user.uid,
+        'date': Timestamp.fromDate(DateTime.now()),
+        'exerciseName': widget.groupName,
+        'durationMinutes': widget.exerciseFolders.length * 2, // Estimar 2 minutos por ejercicio
+        'bodyPart': widget.groupName,
+        'sets': widget.exerciseFolders.length,
+        'reps': null,
+        'weight': null,
+      };
+
+      print('Datos del ejercicio: $exerciseData');
+
+      final docRef = await FirebaseFirestore.instance
+          .collection('exercise_logs')
+          .add(exerciseData);
+
+      print('Ejercicio guardado exitosamente con ID: ${docRef.id}');
+      print('Nombre del ejercicio: ${widget.groupName}');
+    } catch (e) {
+      print('Error guardando ejercicio: $e');
+    }
   }
 
   void _togglePause() {
@@ -134,7 +171,8 @@ class _ExercisePlayerScreenState extends State<ExercisePlayerScreen> {
                 width: double.infinity,
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
+                    await _saveExerciseLog(); // Guardar el ejercicio
                     Navigator.pop(context); // Cerrar diálogo
                     Navigator.pop(context); // Volver a la pantalla de partes del cuerpo
                   },
