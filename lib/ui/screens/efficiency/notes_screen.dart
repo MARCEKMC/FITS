@@ -7,6 +7,7 @@ import '../../widgets/notes/notes_tab.dart';
 import '../../widgets/notes/secure_notes_tab.dart';
 import '../../widgets/notes/tasks_tab.dart';
 import '../../widgets/notes/notes_floating_action_button.dart';
+import '../../widgets/fitsi/fitsi_productivity_report.dart';
 
 class NotesScreen extends StatefulWidget {
   const NotesScreen({super.key});
@@ -83,12 +84,22 @@ class _NotesScreenState extends State<NotesScreen> with TickerProviderStateMixin
           ],
         ),
       ),
-      body: TabBarView(
-        controller: _tabController,
-        children: const [
-          NotesTab(),
-          SecureNotesTab(),
-          TasksTab(),
+      body: Column(
+        children: [
+          // Análisis de productividad de Fitsi
+          const FitsiProductivityReport(),
+          
+          // Contenido de las tabs
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: const [
+                NotesTab(),
+                SecureNotesTab(),
+                TasksTab(),
+              ],
+            ),
+          ),
         ],
       ),
       floatingActionButton: AnimatedBuilder(

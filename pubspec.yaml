@@ -49,6 +49,12 @@ dependencies:
   # Gráficos para estadísticas
   fl_chart: ^0.69.0
 
+  # OpenAI API para Fitsi
+  http: ^1.1.0
+
+  # Variables de entorno seguras
+  flutter_dotenv: ^5.1.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -116,6 +122,7 @@ flutter:
     - assets/exercises/Snatch_Balance/
     - assets/exercises/Spider_Crawl/
     - assets/exercises/Split_Squat_with_Dumbbells/
+    - .env
     - assets/exercises/Standing_Biceps_Cable_Curl/
     - assets/exercises/Standing_Cable_Chest_Press/
     - assets/exercises/Standing_Calf_Raises/
