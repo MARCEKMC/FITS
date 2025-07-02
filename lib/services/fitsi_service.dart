@@ -128,6 +128,8 @@ REGLAS IMPORTANTES:
   // Verificar si el mensaje debería disparar un comando
   bool _shouldTriggerCommand(String message) {
     final lowerMessage = message.toLowerCase();
+    print('🔍 FITSI DEBUG: Verificando comando en mensaje: "$message"');
+    print('🔍 FITSI DEBUG: Mensaje en minúsculas: "$lowerMessage"');
     
     // Palabras clave para notas
     final noteKeywords = ['nota:', 'anota', 'apunta', 'agregar nota', 'agrega una nota', 'crear nota'];
@@ -140,7 +142,15 @@ REGLAS IMPORTANTES:
     
     final allKeywords = [...noteKeywords, ...taskKeywords, ...workoutKeywords];
     
-    return allKeywords.any((keyword) => lowerMessage.contains(keyword));
+    for (final keyword in allKeywords) {
+      if (lowerMessage.contains(keyword)) {
+        print('🎯 FITSI DEBUG: Palabra clave encontrada: "$keyword"');
+        return true;
+      }
+    }
+    
+    print('❌ FITSI DEBUG: No se encontraron palabras clave');
+    return false;
   }
 
   // Prompt específico para detección de comandos
@@ -166,6 +176,7 @@ Mensaje del usuario: "${userMessage}"
   // Chat principal con Fitsi
   Future<Map<String, dynamic>> chat(String message, {Map<String, dynamic>? userContext}) async {
     try {
+      print('🚀 FITSI DEBUG: Iniciando chat con mensaje: "$message"');
       userContext ??= await _getUserContext();
       
       final response = await http.post(
@@ -194,6 +205,7 @@ Mensaje del usuario: "${userMessage}"
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final content = data['choices'][0]['message']['content'];
+        print('🤖 FITSI DEBUG: Respuesta de OpenAI: "$content"');
         
         // Verificar si es un comando con JSON
         if (content.trim().startsWith('{') && content.trim().endsWith('}')) {
@@ -221,10 +233,14 @@ Mensaje del usuario: "${userMessage}"
         }
 
         // Verificar si el mensaje contiene palabras clave para forzar detección
-        if (_shouldTriggerCommand(message)) {
+        final shouldTrigger = _shouldTriggerCommand(message);
+        print('🔍 FITSI DEBUG: ¿Debería disparar comando? $shouldTrigger');
+        
+        if (shouldTrigger) {
           print('🔍 FITSI: Detectando comando potencial en: $message');
           // Intentar de nuevo con un prompt más específico
           final commandPrompt = _getCommandDetectionPrompt(message);
+          print('🔍 FITSI DEBUG: Usando prompt específico para detección');
           
           final commandResponse = await http.post(
             Uri.parse(_baseUrl),
@@ -501,22 +517,41 @@ Mensaje del usuario: "${userMessage}"
   // Agregar nota
   Future<void> _addNote(String userId, Map<String, dynamic> data) async {
     try {
+      print('📝 FITSI DEBUG: Iniciando _addNote para usuario: $userId');
+      print('📝 FITSI DEBUG: Datos de la nota: $data');
       print('📝 FITSI: Agregando nota: ${data['title']}');
-      await _firestore.collection('notes').add({
+      
+      final now = DateTime.now();
+      final createdAtString = now.toIso8601String();
+      final updatedAtString = now.toIso8601String();
+      
+      print('📝 FITSI DEBUG: Verificando tipos de fecha:');
+      print('📝 FITSI DEBUG: now es tipo: ${now.runtimeType}');
+      print('📝 FITSI DEBUG: createdAtString es tipo: ${createdAtString.runtimeType}');
+      print('📝 FITSI DEBUG: createdAtString valor: $createdAtString');
+      
+      final noteData = {
         'userId': userId,
         'title': data['title'] ?? 'Nota de Fitsi',
         'content': data['content'] ?? '',
-        'createdAt': Timestamp.now(),
-        'updatedAt': Timestamp.now(),
+        'createdAt': createdAtString,
+        'updatedAt': updatedAtString,
         'tags': data['tags'] ?? [],
         'color': data['color'] ?? '#FFFFFF',
         'isPinned': data['isPinned'] ?? false,
         'isSecure': false,
-      });
+      };
+      
+      print('📝 FITSI DEBUG: Datos completos a guardar: $noteData');
+      
+      final docRef = await _firestore.collection('notes').add(noteData);
+      print('📝 FITSI DEBUG: Nota guardada en Firestore con ID: ${docRef.id}');
       print('✅ FITSI: Nota agregada exitosamente');
       
       // Emitir evento para actualizar UI
+      print('🔄 FITSI DEBUG: Emitiendo evento de actualización');
       AppEvents().emit(AppEventTypes.notesUpdated);
+      print('🔄 FITSI DEBUG: Evento emitido exitosamente');
     } catch (e) {
       print('❌ FITSI: Error agregando nota: $e');
       throw e;

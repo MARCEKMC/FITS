@@ -1,0 +1,114 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Función helper para verificar autenticación
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Función helper para verificar ownership
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Función helper para verificar ownership en datos del documento
+    function isDocumentOwner() {
+      return isAuthenticated() && resource.data.userId == request.auth.uid;
+    }
+    
+    // Función helper para verificar ownership en datos de la solicitud
+    function isRequestOwner() {
+      return isAuthenticated() && request.resource.data.userId == request.auth.uid;
+    }
+
+    // Usuarios
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if isOwner(userId);
+    }
+
+    // Perfiles de salud
+    match /health_profiles/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Registros de comidas
+    match /food_entries/{documentId} {
+      allow read: if isDocumentOwner();
+      allow create: if isRequestOwner();
+      allow update: if isDocumentOwner();
+      allow delete: if isDocumentOwner();
+    }
+
+    // Registros de agua
+    match /water_entries/{documentId} {
+      allow read: if isDocumentOwner();
+      allow create: if isRequestOwner();
+      allow update: if isDocumentOwner();
+      allow delete: if isDocumentOwner();
+    }
+
+    // Actividades del horario/eficiencia
+    match /schedule_activities/{documentId} {
+      allow read: if isDocumentOwner();
+      allow create: if isRequestOwner();
+      allow update: if isDocumentOwner();
+      allow delete: if isDocumentOwner();
+    }
+
+    // Registros de ejercicios
+    match /exercise_entries/{documentId} {
+      allow read: if isDocumentOwner();
+      allow create: if isRequestOwner();
+      allow update: if isDocumentOwner();
+      allow delete: if isDocumentOwner();
+    }
+
+    // Rutinas de ejercicios personalizadas
+    match /custom_routines/{userId}/exercises/{exerciseId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Entrenamientos personalizados creados por FITSI
+    match /custom_workouts/{documentId} {
+      allow read: if isDocumentOwner();
+      allow create: if isRequestOwner();
+      allow update: if isDocumentOwner();
+      allow delete: if isDocumentOwner();
+    }
+
+    // Notas del usuario - VERSIÓN SEGURA PARA PRODUCCIÓN
+    match /notes/{documentId} {
+      allow read: if isDocumentOwner();
+      allow create: if isRequestOwner();
+      allow update: if isDocumentOwner();
+      allow delete: if isDocumentOwner();
+    }
+
+    // Notas seguras del usuario
+    match /secure_notes/{documentId} {
+      allow read: if isDocumentOwner();
+      allow create: if isRequestOwner();
+      allow update: if isDocumentOwner();
+      allow delete: if isDocumentOwner();
+    }
+
+    // Tareas del usuario
+    match /tasks/{documentId} {
+      allow read: if isDocumentOwner();
+      allow create: if isRequestOwner();
+      allow update: if isDocumentOwner();
+      allow delete: if isDocumentOwner();
+    }
+
+    // Configuración de PIN para notas seguras
+    match /user_settings/{userId} {
+      allow read, write: if isOwner(userId);
+    }
+
+    // Denegar todo lo demás por defecto
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
