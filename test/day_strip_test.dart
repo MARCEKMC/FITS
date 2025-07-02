@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:fits/ui/widgets/efficiency/day_strip.dart';
+import 'package:fits/modules/efficiency/widgets/day_strip.dart';
 
 void main() {
   testWidgets('DayStrip widget builds correctly', (WidgetTester tester) async {

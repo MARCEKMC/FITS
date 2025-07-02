@@ -7,7 +7,6 @@ import '../../widgets/notes/notes_tab.dart';
 import '../../widgets/notes/secure_notes_tab.dart';
 import '../../widgets/notes/tasks_tab.dart';
 import '../../widgets/notes/notes_floating_action_button.dart';
-import '../../widgets/fitsi/fitsi_productivity_report.dart';
 
 class NotesScreen extends StatefulWidget {
   const NotesScreen({super.key});
@@ -54,6 +53,24 @@ class _NotesScreenState extends State<NotesScreen> with TickerProviderStateMixin
         elevation: 0,
         centerTitle: true,
         iconTheme: const IconThemeData(color: Colors.black87),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh, color: Colors.black87),
+            onPressed: () {
+              // Forzar recarga de todas las tabs
+              context.read<NotesViewModel>().loadNotes();
+              context.read<TasksViewModel>().loadTasks();
+              
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('Actualizando notas...'),
+                  duration: Duration(seconds: 1),
+                ),
+              );
+            },
+            tooltip: 'Actualizar',
+          ),
+        ],
         bottom: TabBar(
           controller: _tabController,
           labelColor: Colors.black87,
@@ -86,9 +103,6 @@ class _NotesScreenState extends State<NotesScreen> with TickerProviderStateMixin
       ),
       body: Column(
         children: [
-          // Análisis de productividad de Fitsi
-          const FitsiProductivityReport(),
-          
           // Contenido de las tabs
           Expanded(
             child: TabBarView(

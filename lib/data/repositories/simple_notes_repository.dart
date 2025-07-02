@@ -24,30 +24,34 @@ class SimpleNotesRepository {
 
   Future<List<Note>> getAllNotes() async {
     final userId = await _ensureUserAuthenticated();
-    if (userId == null) return [];
+    if (userId == null) {
+      print('❌ SimpleNotesRepository: No authenticated user');
+      return [];
+    }
 
     try {
-      print('Loading notes for user: $userId');
-      // Simple query without orderBy to avoid index requirements
+      print('📝 SimpleNotesRepository: Loading notes for user: $userId');
+      
+      // Get user-specific notes only
       final snapshot = await _firestore
           .collection('notes')
           .where('userId', isEqualTo: userId)
           .get();
 
-      print('Found ${snapshot.docs.length} notes');
+      print('📝 SimpleNotesRepository: Found ${snapshot.docs.length} notes for user $userId');
       final notes = snapshot.docs
           .map((doc) {
             final data = doc.data();
-            print('Processing note doc: ${doc.id}');
-            print('Doc data: $data');
+            print('📝 SimpleNotesRepository: Processing note doc: ${doc.id}');
+            print('📝 SimpleNotesRepository: Doc data: $data');
             final noteMap = {...data, 'id': doc.id};
-            print('Note map for parsing: $noteMap');
+            print('📝 SimpleNotesRepository: Note map for parsing: $noteMap');
             try {
               final note = Note.fromMap(noteMap);
-              print('Successfully parsed note: ${note.title}');
+              print('✅ SimpleNotesRepository: Successfully parsed note: ${note.title}');
               return note;
             } catch (e) {
-              print('Error parsing note ${doc.id}: $e');
+              print('❌ SimpleNotesRepository: Error parsing note ${doc.id}: $e');
               rethrow;
             }
           })
@@ -56,10 +60,10 @@ class SimpleNotesRepository {
       // Sort by updatedAt in memory
       notes.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
       
-      print('Returning ${notes.length} sorted notes');
+      print('📝 SimpleNotesRepository: Returning ${notes.length} sorted notes');
       return notes;
     } catch (e) {
-      print('Error loading notes from Firestore: $e');
+      print('❌ SimpleNotesRepository: Error loading notes from Firestore: $e');
       return [];
     }
   }

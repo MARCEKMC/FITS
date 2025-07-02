@@ -64,33 +64,40 @@ service cloud.firestore {
       allow delete: if isDocumentOwner();
     }
 
+    // Registros de ejercicios - nueva colección
+    match /exercise_entries/{documentId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow create: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || request.resource.data.userId == null);
+      allow update: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+    }
+
     // Rutinas de ejercicios personalizadas (si las necesitas)
     match /custom_routines/{userId} {
       allow read, write: if isOwner(userId);
     }
 
-    // Notas del usuario
+    // Entrenamientos personalizados creados por FITSI
+    match /custom_workouts/{documentId} {
+      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow create: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || request.resource.data.userId == null);
+      allow update: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+    }
+
+    // Notas del usuario - TEMPORALMENTE PERMISIVO PARA DEBUG
     match /notes/{documentId} {
-      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
-      allow create: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || request.resource.data.userId == null);
-      allow update: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
-      allow delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow read, write: if isAuthenticated();
     }
 
-    // Notas seguras del usuario
+    // Notas seguras del usuario - TEMPORALMENTE PERMISIVO PARA DEBUG  
     match /secure_notes/{documentId} {
-      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
-      allow create: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || request.resource.data.userId == null);
-      allow update: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
-      allow delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow read, write: if isAuthenticated();
     }
 
-    // Tareas del usuario
+    // Tareas del usuario - TEMPORALMENTE PERMISIVO PARA DEBUG
     match /tasks/{documentId} {
-      allow read: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
-      allow create: if isAuthenticated() && (request.resource.data.userId == request.auth.uid || request.resource.data.userId == null);
-      allow update: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
-      allow delete: if isAuthenticated() && (resource.data.userId == request.auth.uid || resource.data.userId == null);
+      allow read, write: if isAuthenticated();
     }
 
     // Configuración de PIN para notas seguras

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:fits/ui/screens/auth/splash_screen.dart';
-import 'package:fits/ui/screens/auth/auth_screen.dart';
-import 'package:fits/ui/screens/auth/verification_loading_screen.dart';
-import 'package:fits/ui/screens/auth/complete_profile_screen.dart';
+import 'package:fits/modules/auth/screens/splash_screen.dart';
+import 'package:fits/modules/auth/screens/auth_screen.dart';
+import 'package:fits/modules/auth/screens/verification_loading_screen.dart';
+import 'package:fits/modules/auth/screens/complete_profile_screen.dart';
 import 'package:fits/ui/screens/main/main_screen.dart';
-import 'package:fits/ui/screens/efficiency/schedule_screen.dart';
-import 'package:fits/ui/screens/efficiency/notes_screen.dart';
-import 'package:fits/ui/screens/efficiency/reports_screen.dart';
+import 'package:fits/modules/efficiency/screens/schedule_screen.dart';
+import 'package:fits/modules/efficiency/screens/notes_screen.dart';
+import 'package:fits/modules/efficiency/screens/reports_screen.dart';
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {

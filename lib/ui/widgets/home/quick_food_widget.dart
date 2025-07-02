@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../data/models/food_search_result.dart';
 import '../../../data/services/food_search_service.dart';
-import '../../../viewmodel/food_viewmodel.dart';
-import '../../../viewmodel/selected_date_viewmodel.dart';
+import '../../../modules/health/viewmodels/food_viewmodel.dart';
+import '../../../shared/viewmodels/selected_date_viewmodel.dart';
 
 class QuickFoodWidget extends StatelessWidget {
   final Function(String mealType) onMealTypeSelected;

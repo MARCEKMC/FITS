@@ -3,16 +3,17 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 import 'core/theme/app_theme.dart';
 import 'core/navigation/app_router.dart';
-import 'viewmodel/auth_viewmodel.dart';
-import 'viewmodel/user_viewmodel.dart';
-import 'viewmodel/health_viewmodel.dart';
-import 'viewmodel/food_viewmodel.dart';
-import 'viewmodel/water_viewmodel.dart';
-import 'viewmodel/selected_date_viewmodel.dart';
-import 'viewmodel/exercise_viewmodel.dart';
-import 'viewmodel/notes_viewmodel.dart';
-import 'viewmodel/secure_notes_viewmodel.dart';
-import 'viewmodel/tasks_viewmodel.dart';
+import 'modules/auth/viewmodels/auth_viewmodel.dart';
+import 'modules/profile/viewmodels/user_viewmodel.dart';
+import 'modules/health/viewmodels/health_viewmodel.dart';
+import 'modules/health/viewmodels/food_viewmodel.dart';
+import 'modules/health/viewmodels/water_viewmodel.dart';
+import 'shared/viewmodels/selected_date_viewmodel.dart';
+import 'modules/health/viewmodels/exercise_viewmodel.dart';
+import 'modules/efficiency/viewmodels/notes_viewmodel.dart';
+import 'modules/efficiency/viewmodels/secure_notes_viewmodel.dart';
+import 'modules/efficiency/viewmodels/tasks_viewmodel.dart';
+import 'modules/fitsi/viewmodels/fitsi_chat_viewmodel.dart';
 
 class FitsApp extends StatelessWidget {
   const FitsApp({super.key});
@@ -31,6 +32,7 @@ class FitsApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NotesViewModel()),
         ChangeNotifierProvider(create: (_) => SecureNotesViewModel()),
         ChangeNotifierProvider(create: (_) => TasksViewModel()),
+        ChangeNotifierProvider(create: (_) => FitsiChatViewModel()),
       ],
       child: MaterialApp(
         title: 'Fits App',

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../../widgets/main/bottom_nav_bar.dart';
-import '../../widgets/fitsi/fitsi_fab.dart';
+import '../../../modules/fitsi/widgets/fitsi_fab.dart';
 import '../home/home_screen.dart';
-import '../efficiency/efficiency_screen.dart';
-import '../health/health_screen.dart';
-import '../profile/profile_screen.dart';
+import '../../../modules/efficiency/screens/efficiency_screen.dart';
+import '../../../modules/health/screens/health_screen.dart';
+import '../../../modules/profile/screens/profile_screen.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
@@ -31,8 +31,8 @@ class _MainScreenState extends State<MainScreen> {
             duration: const Duration(milliseconds: 270),
             child: _pages[_currentIndex],
           ),
-          // Fitsi FAB flotante
-          const FitsiFloatingButton(),
+          // FITSI FAB flotante
+          const FitsiFAB(),
         ],
       ),
       backgroundColor: Colors.white,

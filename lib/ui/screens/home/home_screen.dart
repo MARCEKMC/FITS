@@ -4,13 +4,13 @@ import '../../widgets/home/quick_action_card.dart';
 import '../../widgets/home/quick_note_widget.dart';
 import '../../widgets/home/quick_task_widget.dart';
 import '../../widgets/home/quick_food_widget.dart';
-import '../../../viewmodel/notes_viewmodel.dart';
-import '../../../viewmodel/tasks_viewmodel.dart';
-import '../../../viewmodel/user_viewmodel.dart';
-import '../health/food_main_screen.dart';
-import '../health/exercise_main_screen.dart';
-import '../efficiency/schedule_screen.dart';
-import '../efficiency/notes_screen.dart';
+import '../../../modules/efficiency/viewmodels/notes_viewmodel.dart';
+import '../../../modules/efficiency/viewmodels/tasks_viewmodel.dart';
+import '../../../modules/profile/viewmodels/user_viewmodel.dart';
+import '../../../modules/health/screens/food_main_screen.dart';
+import '../../../modules/health/screens/exercise_main_screen.dart';
+import '../../../modules/efficiency/screens/schedule_screen.dart';
+import '../../../modules/efficiency/screens/notes_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
